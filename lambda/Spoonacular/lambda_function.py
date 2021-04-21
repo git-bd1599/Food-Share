@@ -6,36 +6,38 @@ import requests
 import spoonacular as sp
 
 
-def lambda_handler(event, context):
-    api = sp.API("43ebbf5785aa40b0a6777bf4349bde6c")
+# def lambda_handler(event, context):
+api = sp.API("43ebbf5785aa40b0a6777bf4349bde6c")
 
-    resultData = []
+resultData = []
 
-    response = api.get_random_recipes(number=100)
-    message = response.json()
-    result = message['recipes']
-    for i in result:
-        ingredients = []
-        id = i['id']
-        title = i['title']
-        instructions = i['instructions']
-        if 'image' in i:
-            image = i['image']
-        test = i['extendedIngredients']
-        for i in test:
-            ingredients.append(i['original'])
-        if 'image' in i:
-            resultData.append([id, title, ingredients, instructions, image])
-        else:
-            resultData.append([id, title, ingredients, instructions, 'No Image'])
+response = api.get_random_recipes(number=1)
+message = response.json()
+result = message['recipes']
+print(result)
+# for i in result:
+#     ingredients = []
+#     tags = i['tags']
+#     id = i['id']
+#     title = i['title']
+#     instructions = i['instructions']
+#     if 'image' in i:
+#         image = i['image']
+#     test = i['extendedIngredients']
+#     for i in test:
+#         ingredients.append(i['original'])
+#     if 'image' in i:
+#         resultData.append([id, title, ingredients, instructions, tags, image])
+#     else:
+#         resultData.append([id, title, ingredients, instructions, tags, 'No Image'])
 
-    # # Add data to DynamodDB
-    dynamoInsert(resultData)
-
-    return {
-        'statusCode': 200,
-        'body': json.dumps('success')
-    }
+    # # # Add data to DynamodDB
+    # dynamoInsert(resultData)
+    #
+    # return {
+    #     'statusCode': 200,
+    #     'body': json.dumps('success')
+    # }
 
 
 def dynamoInsert(recipe):
