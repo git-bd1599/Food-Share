@@ -7,7 +7,7 @@ $(document).ready(function() {
 
   $(window).load(function() {
     $messages.mCustomScrollbar();
-    insertResponseMessage('Hi there, I\'m your personal Concierge. How can I help?');
+    insertResponseMessage('Hi there. How can I help?');
   });
 
   function updateScrollbar() {
@@ -38,7 +38,14 @@ $(document).ready(function() {
   }
 
   function insertMessage() {
+    // TODO: fix voice chat functionality
     msg = $('.message-input').val();
+    msg2 =  $('#transcript').val();
+    console.log("MSG", msg2)
+    if (msg2 !== ''){
+      msg = msg2
+    }
+
     if ($.trim(msg) == '') {
       return false;
     }
@@ -99,12 +106,12 @@ $(document).ready(function() {
   })
 
   function insertResponseMessage(content) {
-    $('<div class="message loading new"><figure class="avatar"><img src="../../images/avatar.png" /></figure><span></span></div>').appendTo($('.mCSB_container'));
+    $('<div class="message loading new"><figure class="avatar"><img src="images/avatar.png" /></figure><span></span></div>').appendTo($('.mCSB_container'));
     updateScrollbar();
 
     setTimeout(function() {
       $('.message.loading').remove();
-      $('<div class="message new"><figure class="avatar"><img src="../../images/avatar.png" /></figure>' + content + '</div>').appendTo($('.mCSB_container')).addClass('new');
+      $('<div class="message new"><figure class="avatar"><img src="images/avatar.png" /></figure>' + content + '</div>').appendTo($('.mCSB_container')).addClass('new');
       setDate();
       updateScrollbar();
       i++;
