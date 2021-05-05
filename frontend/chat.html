@@ -83,7 +83,11 @@
                 <div class="messages-content"></div>
               </div>
               <div class="message-box">
-                <textarea type="text" class="message-input" id="transcript" placeholder="Type message..."></textarea>
+                <!-- Use id='transcript' to put the transcription in this box -->
+                <!-- Use 'input' tag instead of 'textarea' to fix 1 second refresh issue -->
+                <!-- <textarea type="text" class="message-input" id="transcript" placeholder="Type message..."></textarea> -->
+                <input type="text" class="message-input" id="transcript" placeholder="Type message..." aria-describedby="basic-addon2">
+
               </div>
             </div>
           </div>
