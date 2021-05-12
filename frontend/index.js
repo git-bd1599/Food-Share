@@ -42,13 +42,21 @@ async function searchAPI(params, body, additionalParams){
                 return
             }
 
-            // Render recipe images
-            for (i=0; i<pictures.length; i++){
+            let recipesList = getresponse.data
+            // Render recipes
+            for (i=0; i<recipesList.length; i++){
+                let recipeDetails = recipesList[i][0]
+                console.log("RECIPE DETAILS", recipeDetails)
                 let pic = document.createElement('img');
-                // pic.src = "https://s3.amazonaws.com/b2-photo-storage/" + pictures[i]; # ADD SOURCE
+                pic.src = recipeDetails.image;
                 pic.style.margin = "3px";
-                pic.style.height = "200px";
+                pic.style.height = "70px";
                 document.getElementById("photo-grid").appendChild(pic);
+
+                let pNode = document.createElement('P');
+                let title = document.createTextNode(recipeDetails.title)
+                pNode.append(title);
+                document.getElementById("photo-grid").appendChild(pNode)
             }
         }
     } catch (error){
