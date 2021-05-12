@@ -5,6 +5,7 @@ import os
 import dateutil.parser
 import logging
 import boto3
+import random
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 from requests_aws4auth import AWS4Auth
 from boto3.dynamodb.conditions import Key
@@ -89,9 +90,12 @@ def lambda_handler(event, context):
 
     # Remove duplicate files
     unique_results = list(set(searchresults))
+    # prevent too many reads from DB
+    if len(unique_results) > 3:
+        select3 = random.sample(unique_results,3)
     print("UNIQUE RESULTS", unique_results)
 
-
+    # Query DynamoDB to get recipe details
     def query_database(recipe_id):
         dynamodb = boto3.resource('dynamodb')
         dynamoTable = dynamodb.Table(TABLE_NAME)
@@ -102,8 +106,12 @@ def lambda_handler(event, context):
     # https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.04.html
 
     recipe_details = []
-    for recipe_id in unique_results:
+    for recipe_id in select3:
+        print("RECIPE ID", recipe_id)
         recipe_details.append(query_database(recipe_id))
+
+    print("RECIPE DETAILS ---> ", recipe_details)
+    print("RECIPE IDs", select3)
 
     return {
         "statusCode": 200,
