@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barter</title>
+
+    <!--Mapbox-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+
+    <!-- Bootstrap core CSS -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
+    <link href="css/map.css" rel="stylesheet">
+
+    <!-- AWS SDK -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
+    <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 10%; bottom: 0; left: 25%; width: 100%; }
+</style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+        <div class = "container-fluid">
+            <a class="navbar-brand" href="#"><img src = "images/logo.png" style=width:50px;margin:-5px></a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="search.html">Search</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="chat.html">Chat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="barter.html">Barter</a>
+                </li>
+              </ul>
+        </div>
+    </nav>
+
+    <div id='map' style='width: 1000px; height: 1000px;'></div>
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamk3ODkwIiwiYSI6ImNrb2x2NnF1NDIxNzAydnB3dGlrczF6d24ifQ.U4UVnWoUly_S7eX0ughcKA';
+      var geojson = {
+            'type': 'FeatureCollection',
+            'features': [
+                {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [-73.98942382060196, 40.72833953315878]
+                },
+                'properties': {
+                    'title': 'Pad Thai',
+                    'user': 'Poon',
+                    'image': 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg',
+                }
+                },
+                {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [-73.99963025072168, 40.752851322116996]
+                },
+                'properties': {
+                    'title': 'Bibimbap',
+                    'user': 'Jin Lee',
+                    'image': 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg',
+                }
+                },
+                ]
+      };
+
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-73.9592492763008,40.722485940954854],
+        zoom: 12
+      });
+
+
+        // add markers to map
+        geojson.features.forEach(function (marker) {
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.className = 'marker';
+
+            // make a marker for each feature and add it to the map
+            new mapboxgl.Marker(el)
+                .setLngLat(marker.geometry.coordinates)
+                .setPopup(
+                    new mapboxgl.Popup({offset: 25}) // add popups
+                        .setHTML(
+                            '<h4>' +
+                            marker.properties.title +'</h4> <p>' + marker.properties.user+'</p>' + '<img src="marker.properties.image">'
+                        )
+                )
+                .addTo(map);
+        });
+      // var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+      //     "Pad Thai"
+      // )
+
+      // var marker1 = new mapboxgl.Marker()
+      //       .setLngLat([-73.98942382060196, 40.72833953315878])
+      //       .setPopup(popup)
+      //       .addTo(map);
+
+    </script>
+
+
+</body>
+</html>
