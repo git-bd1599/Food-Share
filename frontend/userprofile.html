@@ -150,6 +150,30 @@
         let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
         console.log('cognito user pool', CognitoUserPool)
 
+        // var IDENTITY_POOL_ID = 'Your Cognito identity pool ID';
+        // var ACCOUNT_ID = 'Your AWS account ID';
+        // var REGION = 'Your AWS region';
+
+        // // Initialize the Amazon Cognito credentials provider
+        // AWS.config.region = REGION; // Region
+        // AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: IDENTITY_POOL_ID,});
+
+        // var getIdParams = {
+        //     IdentityPoolId: IDENTITY_POOL_ID,
+        //     AccountId: ACCOUNT_ID
+        // };
+
+        // var cognitoidentity = new AWS.CognitoIdentity({apiVersion: '2014-06-30'});
+
+        // cognitoidentity.getId(getIdParams, function(err, data) {
+        //     if (err) {
+        //         results.innerHTML = "Error" + err;
+        //     } else {
+        //         results.innerHTML =  "Cognito Identity ID is " + data.IdentityId;
+        //     }
+        // });
+        // https://docs.aws.amazon.com/code-samples/latest/catalog/javascript-cognito-cognito_getcreds.html.html
+
     </script>
 
 </body>

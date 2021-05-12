@@ -24,14 +24,15 @@ function searchRecipe(e) {
 async function searchAPI(params, body, additionalParams){
 
     // Connect to API Gateway
-    let apigClient = apigClientFactory.newClient({apiKey: APIKEY});
+    let apigClient = apigClientFactory.newClient();
     console.log("apigClient", apigClient);
 
     try {
         // API GATEWAY
-        // const getresponse = await apigClient.searchGet(params, body, additionalParams);
+        const getresponse = await apigClient.searchGet(params, body, additionalParams);
 
         if (getresponse) {
+            console.log("RESPONSE", getresponse)
             let recipes = getresponse.data;
             if (recipes.length === 0){
                 let pNode = document.createElement('P');
