@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barter Form</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
+
+    <!-- AWS SDK -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
+    <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- AWS SDK -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
+    <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
+
+    <style>
+      html, body {
+      min-height: 100%;
+      }
+      body, div, form, input, select, textarea, p {
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 22px;
+      }
+      h1 {
+      position: absolute;
+      margin: 0;
+      font-size: 32px;
+      color: #fff;
+      z-index: 2;
+      }
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 20px;
+      }
+      form {
+      width: 100%;
+      padding: 20px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 0 30px 0;
+      }
+      .banner {
+      position: relative;
+      height: 210px;
+      background-image: url("images/barter-photo.jpeg");
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      }
+      .banner::after {
+      content: "";
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      }
+      p.top-info {
+      margin: 10px 0;
+      }
+      input, select, textarea {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+      input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      }
+      select {
+      width: 100%;
+      padding: 7px 0;
+      background: transparent;
+      }
+      textarea {
+      width: calc(100% - 12px);
+      padding: 5px;
+      }
+      .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
+      color: #a4dab5;
+      }
+      /*.item input:hover, .item select:hover, .item textarea:hover {*/
+      /*border: 1px solid transparent;*/
+      /*box-shadow: 0 0 8px 0 #8ebf42;*/
+      /*color: #8ebf42;*/
+      /*}*/
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      font-size: 20px;
+      color: #a9a9a9;
+      }
+      .item i {
+      right: 2%;
+      top: 30px;
+      z-index: 1;
+      }
+      [type="date"]::-webkit-calendar-picker-indicator {
+      right: 1%;
+      z-index: 2;
+      opacity: 0;
+      cursor: pointer;
+      }
+      input[type=radio] {
+      width: 0;
+      visibility: hidden;
+      }
+      label.radio {
+      position: relative;
+      display: inline-block;
+      margin: 5px 20px 25px 0;
+      cursor: pointer;
+      }
+      .question span {
+      margin-left: 30px;
+      }
+      label.radio:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 2px solid #8ebf42;
+      }
+      label.radio:after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 4px;
+      top: 6px;
+      left: 5px;
+      background: transparent;
+      border: 3px solid #8ebf42;
+      border-top: none;
+      border-right: none;
+      transform: rotate(-45deg);
+      opacity: 0;
+      }
+      input[type=radio]:checked + label:after {
+      opacity: 1;
+      }
+      .btn-block {
+      margin-top: 10px;
+      text-align: center;
+      }
+      button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #a4dab5;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+      button:hover {
+      background: #a1d67a;
+      }
+      @media (min-width: 568px) {
+      .name-item, .city-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      }
+      .name-item input, .city-item input {
+      width: calc(50% - 20px);
+      }
+      .city-item select {
+      width: calc(50% - 8px);
+      }
+      }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+        <div class = "container-fluid">
+            <a class="navbar-brand" href="#"><img src = "images/logo.png" style=width:50px;margin:-5px></a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="search.html">Search</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="chat.html">Chat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Barter</a>
+                </li>
+              </ul>
+        </div>
+    </nav>
+
+<!--    Form-->
+<div class="testbox">
+      <form action="/">
+        <div class="banner">
+          <h1>Barter Form</h1>
+        </div>
+        <div class="item">
+          <p>Name</p>
+          <div class="name-item">
+            <input type="text" name="First" placeholder="First" />
+            <input type="text" name="Last" placeholder="Last" />
+          </div>
+        </div>
+        <div class="item">
+          <p>Barter Date</p>
+          <input type="date" name="bdate" required/>
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+<!--        <div class="question">-->
+<!--          <p>Driving Licence</p>-->
+<!--          <div class="question-answer">-->
+<!--            <input type="radio" value="none" id="radio_1" name="driving"/>-->
+<!--            <label for="radio_1" class="radio"><span>Yes</span></label>-->
+<!--            <input type="radio" value="none" id="radio_2" name="driving" />-->
+<!--            <label for="radio_2" class="radio"><span>No</span></label>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="item">
+          <p>Please write any additional comments on your dish</p>
+          <textarea rows="3"></textarea>
+        </div>
+        <div class="item">
+          <p>Phone Number</p>
+          <input type="text" name="name"/>
+        </div>
+        <div class="item">
+          <p>Email</p>
+          <input type="text" name="name"/>
+        </div>
+        <div class="item">
+          <p>Address</p>
+          <input type="text" name="name" placeholder="Full Street address"/>
+          <div class="city-item">
+            <select>
+              <option value="">Borough</option>
+              <option value="1">Manhattan</option>
+              <option value="2">Brooklyn</option>
+              <option value="3">Queens</option>
+              <option value="4">Staten Island</option>
+              <option value="5">Bronx</option>
+            </select>
+            <input type="text" name="name" placeholder="Postal / Zip code" />
+
+          </div>
+        </div>
+        <div class="btn-block">
+          <button type="submit" href="/">Submit</button>
+        </div>
+      </form>
+    </div>
+
+</body>
+</html>
