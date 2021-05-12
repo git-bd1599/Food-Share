@@ -1,4 +1,3 @@
-
 // Function to search for recipes
 // ---------------------------------------------------------------------------------------
 function searchRecipe(e) {
@@ -62,4 +61,49 @@ async function searchAPI(params, body, additionalParams){
     } catch (error){
         console.log("Error", error);
     }
+}
+
+
+
+// Function to add new recipes
+// ---------------------------------------------------------------------------------------
+function uploadNewRecipe(e){
+    e.preventDefault();
+    console.log('Uploading new recipe')
+
+    var title = document.getElementById("add-recipe-form").elements[0].value;
+    let imageurl = document.getElementById("add-recipe-form").elements[1].value;
+    let ingredients = document.getElementById("add-recipe-form").elements[2].value;
+    let instructions = document.getElementById("add-recipe-form").elements[3].value;
+
+    console.log("FORM DETAILS", title, imageurl, ingredients, instructions)
+
+    // Uploading recipe via API /PUT method
+    async function uploadRecipePUT() {
+        e.preventDefault();
+        console.log("Upload button clicked...");
+
+        // Connect to API Gateway
+        let apigClient = apigClientFactory.newClient();
+        console.log("apigClient", apigClient);
+
+        let params = {
+            "Content-Type": "multipart/form-data"
+        };
+        let body = {
+            "title": title,
+            "imageurl": imageurl,
+            "ingredients": ingredients,
+            "instructions": instructions,
+        };
+        let additionalParams = {};
+
+        // API GATEWAY
+        apigClient.uploadPut(params, body, additionalParams);
+
+        // Clear form after submit
+        $("#add-recipe-form")[0].reset();
+    }
+
+    uploadRecipePUT()
 }
