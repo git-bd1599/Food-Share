@@ -105,7 +105,7 @@
           onSuccess: function(result){
             let accessToken = result.getAccessToken().getJwtToken();
             console.log("ACCESS TOKEN", accessToken)
-            return window.location.href='userprofile.html';
+            return window.location.href='userprofile.html'; // Redirect the user to their profile
           },
           onFailure: function(err){
             alert(err.message || JSON.stringify(err));
