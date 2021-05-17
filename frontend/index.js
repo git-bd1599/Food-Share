@@ -78,6 +78,29 @@ function uploadNewRecipe(e){
 
     console.log("FORM DETAILS", title, imageurl, ingredients, instructions)
 
+    // Get user data from Cognito
+    let data = {
+        UserPoolId: config.cognito.userPoolId,
+        ClientId: config.cognito.clientId
+    };
+    console.log("DATA", data);
+
+    let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+    let userPool =  new AmazonCognitoIdentity.CognitoUserPool(data);
+    let cognitoUser = userPool.getCurrentUser();
+
+    let username;
+    if (cognitoUser.username) {
+        username = cognitoUser.username
+    } else {
+        username = ''
+    }
+
+    console.log("USER POOL", userPool)
+    console.log("cognito user", cognitoUser)
+    console.log("username", username)
+
+
     // Uploading recipe via API /PUT method
     async function uploadRecipePUT() {
         e.preventDefault();
@@ -91,6 +114,7 @@ function uploadNewRecipe(e){
             "Content-Type": "multipart/form-data"
         };
         let body = {
+            "username": username,
             "title": title,
             "imageurl": imageurl,
             "ingredients": ingredients,
