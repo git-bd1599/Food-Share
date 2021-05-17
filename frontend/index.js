@@ -90,7 +90,7 @@ function uploadNewRecipe(e){
     let cognitoUser = userPool.getCurrentUser();
 
     let username;
-    if (cognitoUser.username) {
+    if (cognitoUser) {
         username = cognitoUser.username
     } else {
         username = ''
