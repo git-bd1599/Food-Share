@@ -7,11 +7,13 @@ from requests_aws4auth import AWS4Auth
 REGION = 'us-east-1'
 RECIPES_TABLE = 'recipes'
 USERS_TABLE = 'Users'
+USER_CREATED_RECIPES_TABLE = 'recipesOfUser'
 
 es_endpoint = 'search-recipes-2i7rrbbths6vftpgij7o44u7mu.us-east-1.es.amazonaws.com'
 credentials = boto3.Session().get_credentials()
 service = 'es'
 awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, REGION, service, session_token=credentials.token)
+
 
 def lambda_handler(event, context):
     print("EVENT", event)
@@ -32,10 +34,11 @@ def lambda_handler(event, context):
     # list of ingredients
     ingredients = body_dict['ingredients'].split(',')
 
-    # Put new recipe in recipes table
+    # Put new recipe in DynamoDB tables
     dynamodb = boto3.resource('dynamodb')
     recipesTable = dynamodb.Table(RECIPES_TABLE)
     usersTable = dynamodb.Table(USERS_TABLE)
+    recipesOfUsersTable = dynamodb.Table(USER_CREATED_RECIPES_TABLE)
 
     # recipesTable.put_item(
     #     Item={
@@ -46,6 +49,15 @@ def lambda_handler(event, context):
     #         'image': body_dict['imageurl']
     #     }
     # )
+
+
+    # Add recipe to RecipesOfUser table
+    recipesOfUsersTable.put_item(
+        Item={
+            'userName':username,
+            'recipeId': recipe_id
+        }
+    )
 
 
     # Add recipe id to user's table
@@ -68,7 +80,6 @@ def lambda_handler(event, context):
                 'savedrecipes': [recipe_id]
             }
         )
-
 
 
     # Add recipe to elasticsearch
