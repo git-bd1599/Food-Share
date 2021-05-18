@@ -38,27 +38,23 @@ def query_database(recipe_id):
 
 def lambda_handler(event, context):
 
-    bob = recommendations_for('bob')
-    alice = recommendations_for('alice')
-    testuser = recommendations_for('testuser')
+    USER = 'bob' # hardcoded for now ***
+    recs_for_user = recommendations_for(USER)
 
-    print("RECOMMENDATIONS BOB ---> ", bob)
-    print("RECOMMENDATIONS ALICE ---> ", alice)
-    print("RECOMMENDATIONS TESTUSER ---> ", testuser)
-
-
-
+    print("RECOMMENDATIONS ---> ", recs_for_user)
 
     recipe_details = []
-    for recipe_id in alice: # FIX *******
+    for recipe_id in recs_for_user:
         print("RECIPE ID", recipe_id)
         recipe_details.append(query_database(recipe_id))
 
     print("RECIPE DETAILS ---> ", recipe_details)
+    print('tyepofrecipedetails', type(recipe_details))
 
 
     return {
         "statusCode": 200,
         'headers': {"Access-Control-Allow-Origin": "*"},
         "body": json.dumps(recipe_details)
+        # "isBase64Encoded": true|false,
     }

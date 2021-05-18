@@ -64,6 +64,64 @@ async function searchAPI(params, body, additionalParams){
 }
 
 
+// Function to get recommendations
+// ---------------------------------------------------------------------------------------
+// Recommendations using API /GET method
+async function recommendAPI(params, body, additionalParams){
+
+    // Connect to API Gateway
+    let apigClient = apigClientFactory.newClient();
+    console.log("apigClient", apigClient);
+
+    try {
+        // API GATEWAY
+        const getresponse = await apigClient.recommendGet(params, body, additionalParams);
+
+        if (getresponse) {
+            console.log("RESPONSE", getresponse)
+            let recipes = getresponse.data["body"];
+            let recipesList = JSON.parse(recipes)
+            // console.log("RECIPES", recipes)
+            console.log("RECIPES LIST", recipesList)
+            if (recipes.length === 0 || recipesList.length === 0){
+                let pNode = document.createElement('P');
+                let textnode = document.createTextNode("No recipes found.");
+                pNode.append(textnode);
+                document.getElementById("photo-grid").appendChild(pNode);
+                return
+            }
+
+            // Render recipes
+            for (i=0; i<recipesList.length; i++){
+                let recipeDetails = recipesList[i][0]
+                console.log("RECIPE DETAILS", recipeDetails)
+                let pic = document.createElement('img');
+                pic.src = recipeDetails.image;
+                pic.style.margin = "3px";
+                pic.style.height = "70px";
+                document.getElementById("photo-grid").appendChild(pic);
+
+                let pNode = document.createElement('P');
+                let title = document.createTextNode(recipeDetails.title)
+                pNode.append(title);
+                document.getElementById("photo-grid").appendChild(pNode)
+            }
+        }
+    } catch (error){
+        console.log("Error", error);
+    }
+}
+
+function getRecommenations(){
+
+    var params = {q: ''};
+    var body = {};
+    var additionalParams = {};
+
+    recommendAPI(params, body, additionalParams);
+}
+
+
 
 // Function to add new recipes
 // ---------------------------------------------------------------------------------------
