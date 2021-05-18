@@ -11,18 +11,18 @@
     <link href="style.css" rel="stylesheet">
 
     <!-- API Gateway Generated SDK -->
-    <script src="./assets/js/search/sdk/lib/axios/dist/axios.standalone.js"></script>
-    <script src="./assets/js/search/sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
-    <script src="./assets/js/search/sdk/lib/CryptoJS/rollups/sha256.js"></script>
-    <script src="./assets/js/search/sdk/lib/CryptoJS/components/hmac.js"></script>
-    <script src="./assets/js/search/sdk/lib/CryptoJS/components/enc-base64.js"></script>
-    <script src="./assets/js/search/sdk/lib/url-template/url-template.js"></script>
-    <script src="./assets/js/search/sdk/lib/apiGatewayCore/sigV4Client.js"></script>
-    <script src="./assets/js/search/sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
-    <script src="./assets/js/search/sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
-    <script src="./assets/js/search/sdk/lib/apiGatewayCore/utils.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/axios/dist/axios.standalone.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/CryptoJS/rollups/sha256.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/CryptoJS/components/hmac.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/CryptoJS/components/enc-base64.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/url-template/url-template.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script src="./assets/js/barterform/sdk/lib/apiGatewayCore/utils.js"></script>
 
-    <script src="./assets/js/search/sdk/apigClient.js"></script>
+    <script src="./assets/js/barterform/sdk/apigClient.js"></script>
 
 
     <!-- AWS SDK -->
@@ -231,15 +231,15 @@
           <h1>Barter Form</h1>
         </div>
         <div class="item">
-          <p>Username</p>
+          <p>Recipe</p>
           <div class="name-item">
-            <input id="username" type="text" name="First" placeholder="Username" required/>
+            <input id="recipe" type="text" name="recipe" placeholder="Recipe ID" required/>
           </div>
         </div>
         <div class="item">
-          <p>Name</p>
+          <p>Username</p>
           <div class="name-item">
-            <input id="name" type="text" name="name" placeholder="Name" />
+            <input id="username" type="text" name="First" placeholder="Username" required/>
           </div>
         </div>
         <div class="item">
@@ -252,10 +252,6 @@
           <textarea id="comments" rows="3"></textarea>
         </div>
         <div class="item">
-          <p>Phone Number</p>
-          <input id="phone" type="text" name="name"/>
-        </div>
-        <div class="item">
           <p>Email</p>
           <input id="email" type="text" name="name" required/>
         </div>
@@ -265,7 +261,7 @@
           <input id="zip" type="text" name="name" placeholder="Zip Code" required/>
         </div>
         <div class="btn-block">
-          <button type="submit" onclick="addBarter()">Submit</button>
+          <button type="button" onclick="addBarter(event)">Submit</button>
         </div>
       </form>
     </div>

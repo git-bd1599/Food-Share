@@ -4,16 +4,15 @@ function addBarter(e){
     e.preventDefault();
     console.log('Add New Barter')
 
+    const recipe = document.getElementById("recipe").value
     const username = document.getElementById("username").value
-    const name = document.getElementById("name").value
     const date = document.getElementById("date").value
     const comments = document.getElementById("comments").value
-    const phone = document.getElementById("phone").value
     const email = document.getElementById("email").value
     const address = document.getElementById("address").value
     const zip = document.getElementById("zip").value
 
-    console.log("FORM DETAILS", username, name, date, comments, phone, email, address, zip)
+    console.log("FORM DETAILS", username, name, date, comments, email, address, zip)
 
     // Uploading recipe via API /PUT method
     async function addBarterPUT() {
@@ -28,11 +27,10 @@ function addBarter(e){
             "Content-Type": "multipart/form-data"
         };
         let body = {
+              'recipe_id': recipe,
               'username': username,
-              'name': name,
               'date': date,
               'comments': comments,
-              'phone': phone,
               'email': email,
               'address': address,
               'zip': zip,
