@@ -48,6 +48,29 @@ def lambda_handler(event, context):
     # )
 
 
+    # Add recipe id to user's table
+    try: # append to existing user
+        result = usersTable.update_item(
+            Key={
+                'username': username,
+            },
+            UpdateExpression="SET savedrecipes = list_append(savedrecipes, :i)",
+            ExpressionAttributeValues={
+                ':i': [recipe_id],
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+    except: # add new user entry
+        print("EXCEPT", username)
+        result = usersTable.put_item(
+            Item = {
+                'username': username,
+                'savedrecipes': [recipe_id]
+            }
+        )
+
+
+
     # Add recipe to elasticsearch
     es = Elasticsearch(
         hosts = [{'host': es_endpoint, 'port': 443}],
@@ -87,7 +110,6 @@ def lambda_handler(event, context):
     print("DEBUG index_data:", index_data)
 
     # es.index(index="recipes", id=recipe_id, body=index_data, refresh=True, request_timeout=30)
-
 
 
     return {
