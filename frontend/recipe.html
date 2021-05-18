@@ -115,7 +115,32 @@
           if (image != "No Image") {
             $('#recipe-image').attr('src', image)
           }
-          // document.getElementById('recipe-image').src=image
+
+          function isAlpha(str) {
+            return /^[a-zA-Z]+$/.test(str)
+          }
+
+          for (var i=0; i<ingredients.length; i++) {
+            var currLine = ingredients[i]
+            var descStart = 0
+
+            for (var j=0; j<currLine.length; j++) {
+              if (isAlpha(currLine[j])) {
+                descStart = j
+                break
+              }
+            }
+            
+            var quant = " "
+            if (descStart != 0) {
+              quant = currLine.substring(0, descStart - 1).trim()
+            }     
+            var desc = currLine.substring(descStart, currLine.length).trim()
+
+            $('#ingredient-steps').append('<dt>' + quant + '</dt><dd>' + desc + '</dd>')
+
+          }          
+
 
         })
         .catch(function (error) {
@@ -183,17 +208,8 @@
         <div class="col-12">
           <div class="recipe-ingredients">
             <h3>Ingredients</h3>
-            <dl class="ingredients-list">
-              <dt>10</dt>
-              <dd>country-style pork ribs</dd>
-              <dt>2</dt>
-              <dd>tablespoons garlic powder</dd>
-              <dt>1</dt>
-              <dd>tablespoon salt</dd>
-              <dt>1</dt>
-              <dd>tablespoon pepper</dd>
-              <dt>2</dt>
-              <dd>cups of your favorite barbecue sauce</dd>
+            <dl class="ingredients-list" id="ingredient-steps">
+
             </dl>
           </div>
         </div>
