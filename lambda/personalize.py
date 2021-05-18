@@ -14,7 +14,7 @@ def recommendations_for(username):
     response = personalizeRt.get_recommendations(
         campaignArn = CAMPAIGN_ARN,
         userId = username,
-        numResults = 5
+        numResults = 10
     )
 
     recommended_recipes = []
@@ -37,8 +37,12 @@ def query_database(recipe_id):
 
 
 def lambda_handler(event, context):
+    print("EVENT", event)
 
-    USER = 'bob' # hardcoded for now ***
+    USER = event['queryStringParameters']['q']
+    print('USER', USER)
+
+    # Get recommendations from Personalize
     recs_for_user = recommendations_for(USER)
 
     print("RECOMMENDATIONS ---> ", recs_for_user)

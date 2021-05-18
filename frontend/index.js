@@ -79,11 +79,10 @@ async function recommendAPI(params, body, additionalParams){
 
         if (getresponse) {
             console.log("RESPONSE", getresponse)
-            let recipes = getresponse.data["body"];
-            let recipesList = JSON.parse(recipes)
-            // console.log("RECIPES", recipes)
+            let recipesList = getresponse.data;
+
             console.log("RECIPES LIST", recipesList)
-            if (recipes.length === 0 || recipesList.length === 0){
+            if (recipesList.length === 0){
                 let pNode = document.createElement('P');
                 let textnode = document.createTextNode("No recipes found.");
                 pNode.append(textnode);
@@ -113,9 +112,29 @@ async function recommendAPI(params, body, additionalParams){
 }
 
 function getRecommenations(){
+    // Get user data from Cognito
+    let data = {
+        UserPoolId: config.cognito.userPoolId,
+        ClientId: config.cognito.clientId
+    };
 
-    var params = {q: ''};
-    var body = {};
+    let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+    let userPool =  new AmazonCognitoIdentity.CognitoUserPool(data);
+    let cognitoUser = userPool.getCurrentUser();
+
+    let username;
+    if (cognitoUser) {
+        username = cognitoUser.username
+    } else {
+        username = ''
+    }
+
+    console.log("USERNAME", username)
+
+    var params = {q: username};
+    var body = {
+        "username": username,
+    };
     var additionalParams = {};
 
     recommendAPI(params, body, additionalParams);

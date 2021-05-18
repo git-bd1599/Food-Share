@@ -40,15 +40,16 @@ def lambda_handler(event, context):
     usersTable = dynamodb.Table(USERS_TABLE)
     recipesOfUsersTable = dynamodb.Table(USER_CREATED_RECIPES_TABLE)
 
-    # recipesTable.put_item(
-    #     Item={
-    #         'id': recipe_id,
-    #         'title': body_dict['title'],
-    #         'ingredients': ingredients,
-    #         'instructions': body_dict['instructions'],
-    #         'image': body_dict['imageurl']
-    #     }
-    # )
+    recipesTable.put_item(
+        Item={
+            'id': recipe_id,
+            'title': body_dict['title'],
+            'ingredients': ingredients,
+            'instructions': body_dict['instructions'],
+            'image': body_dict['imageurl'],
+            'username': username
+        }
+    )
 
 
     # Add recipe to RecipesOfUser table
@@ -120,7 +121,7 @@ def lambda_handler(event, context):
 
     print("DEBUG index_data:", index_data)
 
-    # es.index(index="recipes", id=recipe_id, body=index_data, refresh=True, request_timeout=30)
+    es.index(index="recipes", id=recipe_id, body=index_data, refresh=True, request_timeout=30)
 
 
     return {
