@@ -25,7 +25,8 @@ def lambda_handler(event, context):
     print('USERNAME', username)
 
     # new unique id so it doesn't overlap with spoonacular
-    recipe_id = username + str(int(time.time()))
+    timenow = str(int(time.time()))
+    recipe_id = username + timenow
     print('recipe id', recipe_id)
 
     # list of ingredients
@@ -36,15 +37,15 @@ def lambda_handler(event, context):
     recipesTable = dynamodb.Table(RECIPES_TABLE)
     usersTable = dynamodb.Table(USERS_TABLE)
 
-    recipesTable.put_item(
-        Item={
-            'id': recipe_id,
-            'title': body_dict['title'],
-            'ingredients': ingredients,
-            'instructions': body_dict['instructions'],
-            'image': body_dict['imageurl']
-        }
-    )
+    # recipesTable.put_item(
+    #     Item={
+    #         'id': recipe_id,
+    #         'title': body_dict['title'],
+    #         'ingredients': ingredients,
+    #         'instructions': body_dict['instructions'],
+    #         'image': body_dict['imageurl']
+    #     }
+    # )
 
 
     # Add recipe to elasticsearch
@@ -64,9 +65,10 @@ def lambda_handler(event, context):
             newTitle += char
     labels += newTitle.split()
 
-    for ingredientDetails in ingredients:
-        words = ingredientDetails.split()
-        labels.append(words[-1]) # add only the main ingredient to label
+    if body_dict['ingredients'] != '':
+        for ingredientDetails in ingredients:
+            words = ingredientDetails.split()
+            labels.append(words[-1]) # add only the main ingredient to label
 
     finalLabels = []
     dontInclude = ['and', 'with']
@@ -76,14 +78,15 @@ def lambda_handler(event, context):
 
     print("FINAL LABELS", finalLabels)
 
-    # index_data = {
-    #     'id': recipe['id'],
-    #     'labels': finalLabels
-    # }
+    index_data = {
+        # 'id': recipe_id,
+        'id': timenow, # full ID doesn't work because this has to be type long (so just using the time for 'id'. the real id is stored as '_id')
+        'labels': finalLabels
+    }
 
-    # print("DEBUG index_data:", index_data)
+    print("DEBUG index_data:", index_data)
 
-    # es.index(index="recipes", id=recipe['id'], body=index_data, refresh=True, request_timeout=30)
+    # es.index(index="recipes", id=recipe_id, body=index_data, refresh=True, request_timeout=30)
 
 
 
