@@ -30,50 +30,101 @@
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <link rel="stylesheet" type="text/css" href="css/reset.css" />
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"  />
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
   <link rel="stylesheet" type="text/css" href="css/animate.min.css" />
   <link rel="stylesheet" type="text/css" href="css/styles.css" />
 
   <!-- Modernizr file
   =================== -->
-  <script charset="utf-8" type="text/javascript "src="js/modernizr.custom.js"></script>
+  <script charset="utf-8" type="text/javascript " src="js/modernizr.custom.js"></script>
+
+  <!-- API Gateway Generated SDK -->
+  <script src="./assets/js/searchid/sdk/lib/axios/dist/axios.standalone.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/CryptoJS/rollups/sha256.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/CryptoJS/components/hmac.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/CryptoJS/components/enc-base64.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/url-template/url-template.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+  <script src="./assets/js/searchid/sdk/lib/apiGatewayCore/utils.js"></script>
+
+  <script src="./assets/js/searchid/sdk/apigClient.js"></script>
+
+  <!-- AWS SDK -->
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
 
 </head>
 
 <body>
-
   <!-- Splash Screen
   ================== -->
   <div id="splash"></div>
 
   <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-    <div class = "container-fluid">
-        <a class="navbar-brand" href="#"><img src = "images/logo.png" style=width:50px;margin:-5px></a>
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="userprofile.html">Profile <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="search.html">Search</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="addrecipe.html">Add Recipe</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="chat.html">Chat</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="recommendations.html">Recommendations</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="barter.html">Barter</a>
-            </li>
-          </ul>
-        </div>
-    </nav>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><img src="images/logo.png" style=width:50px;margin:-5px></a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="userprofile.html">Profile <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="search.html">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="addrecipe.html">Add Recipe</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="chat.html">Chat</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="recommendations.html">Recommendations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="barter.html">Barter</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <script>
+    var apigClient = apigClientFactory.newClient()
+    var sPageURL = window.location.search.substring(1)
+    var id = sPageURL.split('=')[1] //"632071"
+
+    searchRecipe(id)
+
+    function searchRecipe(id) {
+      var params = { q: id }
+      var body = {}
+      var additionalParams = {}
+      searchResults = []
+
+      return apigClient.searchGet(params, body, additionalParams)
+        .then(function (result) {
+          var title = result.data.results.title //string
+          var image = result.data.results.image //http string
+          var instructions = result.data.results.instructions //html string
+          var ingredients = result.data.results.ingredients //array
+
+          $('#recipe-title').html(title)
+          if (image != "No Image") {
+            $('#recipe-image').attr('src', image)
+          }
+          // document.getElementById('recipe-image').src=image
+
+        })
+        .catch(function (error) {
+          console.log("DEBUG: error result")
+          console.log(error)
+          alert("Something went Wrong!")
+        })
+    }
+  </script>
 
   <!-- Recipe Section
   =================== -->
@@ -82,14 +133,14 @@
       <div class="row">
         <!-- Title -->
         <div class="col-12">
-          <h2>Barbecue Pork Ribs</h2>
+          <h2 id="recipe-title"></h2>
         </div>
       </div>
       <div class="row vertical-align">
         <div class="col-12">
           <!-- Picture -->
           <div class="col-md-8 pull-left wow swing">
-            <img src="images/bbq-pork-ribs.jpg" alt="bbq-pork-ribs" class="recipe-picture" />
+            <img id="recipe-image" src="images/defaultfood.png" alt="defaultfood-image" class="recipe-picture" />
           </div>
           <!-- Info -->
           <div class="col-md-4 pull-right wow lightSpeedIn">
@@ -133,11 +184,16 @@
           <div class="recipe-ingredients">
             <h3>Ingredients</h3>
             <dl class="ingredients-list">
-              <dt>10</dt> <dd>country-style pork ribs</dd>
-              <dt>2</dt> <dd>tablespoons garlic powder</dd>
-              <dt>1</dt> <dd>tablespoon salt</dd>
-              <dt>1</dt> <dd>tablespoon pepper</dd>
-              <dt>2</dt> <dd>cups of your favorite barbecue sauce</dd>
+              <dt>10</dt>
+              <dd>country-style pork ribs</dd>
+              <dt>2</dt>
+              <dd>tablespoons garlic powder</dd>
+              <dt>1</dt>
+              <dd>tablespoon salt</dd>
+              <dt>1</dt>
+              <dd>tablespoon pepper</dd>
+              <dt>2</dt>
+              <dd>cups of your favorite barbecue sauce</dd>
             </dl>
           </div>
         </div>
