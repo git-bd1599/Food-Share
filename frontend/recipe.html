@@ -112,7 +112,9 @@
           var ingredients = result.data.results.ingredients //array
 
           $('#recipe-title').html(title)
-          $('#recipe-image').attr('src', image)
+          if (image != "No Image") {
+            $('#recipe-image').attr('src', image)
+          }
           // document.getElementById('recipe-image').src=image
 
         })
@@ -138,7 +140,7 @@
         <div class="col-12">
           <!-- Picture -->
           <div class="col-md-8 pull-left wow swing">
-            <img id="recipe-image" src="images/defaultfood.jpg" alt="bbq-pork-ribs" class="recipe-picture" />
+            <img id="recipe-image" src="images/defaultfood.png" alt="defaultfood-image" class="recipe-picture" />
           </div>
           <!-- Info -->
           <div class="col-md-4 pull-right wow lightSpeedIn">
