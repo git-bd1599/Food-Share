@@ -5,21 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barter Form</title>
+
     <!-- Bootstrap core CSS -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/login.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+
+    <!-- API Gateway Generated SDK -->
+    <script src="./assets/js/search/sdk/lib/axios/dist/axios.standalone.js"></script>
+    <script src="./assets/js/search/sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script src="./assets/js/search/sdk/lib/CryptoJS/rollups/sha256.js"></script>
+    <script src="./assets/js/search/sdk/lib/CryptoJS/components/hmac.js"></script>
+    <script src="./assets/js/search/sdk/lib/CryptoJS/components/enc-base64.js"></script>
+    <script src="./assets/js/search/sdk/lib/url-template/url-template.js"></script>
+    <script src="./assets/js/search/sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script src="./assets/js/search/sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script src="./assets/js/search/sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script src="./assets/js/search/sdk/lib/apiGatewayCore/utils.js"></script>
+
+    <script src="./assets/js/search/sdk/apigClient.js"></script>
+
 
     <!-- AWS SDK -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
-    <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- AWS SDK -->
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
-    <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
-
     <style>
       html, body {
       min-height: 100%;
@@ -53,6 +60,7 @@
       border-radius: 6px;
       background: #fff;
       box-shadow: 0 0 30px 0;
+      margin-top: auto;
       }
       .banner {
       position: relative;
@@ -218,64 +226,51 @@
 
 <!--    Form-->
 <div class="testbox">
-      <form action="/">
+      <form id="barter-form">
         <div class="banner">
           <h1>Barter Form</h1>
         </div>
         <div class="item">
+          <p>Username</p>
+          <div class="name-item">
+            <input id="username" type="text" name="First" placeholder="Username" required/>
+          </div>
+        </div>
+        <div class="item">
           <p>Name</p>
           <div class="name-item">
-            <input type="text" name="First" placeholder="First" />
-            <input type="text" name="Last" placeholder="Last" />
+            <input id="name" type="text" name="name" placeholder="Name" />
           </div>
         </div>
         <div class="item">
           <p>Barter Date</p>
-          <input type="date" name="bdate" required/>
+          <input id="date" type="date" name="bdate" required/>
           <i class="fas fa-calendar-alt"></i>
         </div>
-<!--        <div class="question">-->
-<!--          <p>Driving Licence</p>-->
-<!--          <div class="question-answer">-->
-<!--            <input type="radio" value="none" id="radio_1" name="driving"/>-->
-<!--            <label for="radio_1" class="radio"><span>Yes</span></label>-->
-<!--            <input type="radio" value="none" id="radio_2" name="driving" />-->
-<!--            <label for="radio_2" class="radio"><span>No</span></label>-->
-<!--          </div>-->
-<!--        </div>-->
         <div class="item">
           <p>Please write any additional comments on your dish</p>
-          <textarea rows="3"></textarea>
+          <textarea id="comments" rows="3"></textarea>
         </div>
         <div class="item">
           <p>Phone Number</p>
-          <input type="text" name="name"/>
+          <input id="phone" type="text" name="name"/>
         </div>
         <div class="item">
           <p>Email</p>
-          <input type="text" name="name"/>
+          <input id="email" type="text" name="name" required/>
         </div>
         <div class="item">
           <p>Address</p>
-          <input type="text" name="name" placeholder="Full Street address"/>
-          <div class="city-item">
-            <select>
-              <option value="">Borough</option>
-              <option value="1">Manhattan</option>
-              <option value="2">Brooklyn</option>
-              <option value="3">Queens</option>
-              <option value="4">Staten Island</option>
-              <option value="5">Bronx</option>
-            </select>
-            <input type="text" name="name" placeholder="Postal / Zip code" />
-
-          </div>
+          <input id="address" type="text" name="name" placeholder="Full Street Address" required/>
+          <input id="zip" type="text" name="name" placeholder="Zip Code" required/>
         </div>
         <div class="btn-block">
-          <button type="submit" href="/">Submit</button>
+          <button type="submit" onclick="addBarter()">Submit</button>
         </div>
       </form>
     </div>
+
+    <script src="barterform.js"></script>
 
 </body>
 </html>
