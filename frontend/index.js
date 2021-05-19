@@ -1,4 +1,4 @@
-// Function to search for recipes
+// Function to search for recipes *
 // ---------------------------------------------------------------------------------------
 function searchRecipe(e) {
     e.preventDefault()
