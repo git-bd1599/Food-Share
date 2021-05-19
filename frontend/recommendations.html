@@ -11,22 +11,24 @@
     <link href="style.css" rel="stylesheet">
 
     <!-- API Gateway Generated SDK -->
-    <!-- <script src="./assets/js/sdk/lib/axios/dist/axios.standalone.js"></script>
-    <script src="./assets/js/sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
-    <script src="./assets/js/sdk/lib/CryptoJS/rollups/sha256.js"></script>
-    <script src="./assets/js/sdk/lib/CryptoJS/components/hmac.js"></script>
-    <script src="./assets/js/sdk/lib/CryptoJS/components/enc-base64.js"></script>
-    <script src="./assets/js/sdk/lib/url-template/url-template.js"></script>
-    <script src="./assets/js/sdk/lib/apiGatewayCore/sigV4Client.js"></script>
-    <script src="./assets/js/sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
-    <script src="./assets/js/sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
-    <script src="./assets/js/sdk/lib/apiGatewayCore/utils.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/axios/dist/axios.standalone.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/CryptoJS/rollups/sha256.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/CryptoJS/components/hmac.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/CryptoJS/components/enc-base64.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/url-template/url-template.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script src="./assets/js/recommend/sdk/lib/apiGatewayCore/utils.js"></script>
 
-    <script src="./assets/js/sdk/apigClient.js"></script> -->
+    <script src="./assets/js/recommend/sdk/apigClient.js"></script>
 
-    <!-- AWS SDK -->
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
-    <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
+    <!-- AWS SDK & Cognito -->
+    <script src="./js/aws/amazon-cognito-identity.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.211.1.min.js"></script>
+    <script type="module" src="./js/config.js"></script>
+
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -63,11 +65,18 @@
         </div>
     </nav>
 
+    <!-- Search for Recipe -->
+    <div class="input-group mb-3">
+      <div class="container">
+          <h3 style="margin: 20px 0px 10px 0px">Recommendations</h3>
+      </div>
+    </div>
+
     <!-- For Rendering the Recipe Thumbnails -->
     <div id="photo-output" style='padding-bottom:20px'>
-        <div class="container" id="photo-grid">
+      <div class="container" id="photo-grid">
 
-        </div>
+      </div>
     </div>
 
     <!-- jQuery and Bootstrap Bundle (includes Popper) -->
@@ -76,7 +85,8 @@
 
 
     <!-- For Search Function -->
-    <!-- <script src=index.js></script> -->
+    <script src=index.js></script>
+    <script>getRecommenations()</script>
 
 
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

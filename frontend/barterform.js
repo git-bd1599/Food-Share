@@ -40,8 +40,9 @@ function addBarter(e){
         // API GATEWAY
         apigClient.uploadPut(params, body, additionalParams);
 
-        // Clear form after submit
-        $("#barter-form")[0].reset();
+        document.getElementById('barter-form').reset()
+        alert('Barter Form has been submitted!')
+        document.location.href="barter.html"
     }
 
     addBarterPUT()

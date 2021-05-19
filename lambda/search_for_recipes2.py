@@ -91,8 +91,10 @@ def lambda_handler(event, context):
     # Remove duplicate files
     unique_results = list(set(searchresults))
     # prevent too many reads from DB
-    if len(unique_results) > 3:
-        select3 = random.sample(unique_results,3)
+    if len(unique_results) > 10:
+        selected = random.sample(unique_results,10)
+    else:
+        selected = unique_results
     print("UNIQUE RESULTS", unique_results)
 
     # Query DynamoDB to get recipe details
@@ -106,12 +108,12 @@ def lambda_handler(event, context):
     # https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.04.html
 
     recipe_details = []
-    for recipe_id in select3:
+    for recipe_id in selected:
         print("RECIPE ID", recipe_id)
         recipe_details.append(query_database(recipe_id))
 
     print("RECIPE DETAILS ---> ", recipe_details)
-    print("RECIPE IDs", select3)
+    print("RECIPE IDs", selected)
 
     return {
         "statusCode": 200,
