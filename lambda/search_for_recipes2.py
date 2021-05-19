@@ -43,6 +43,7 @@ def lambda_handler(event, context):
 
     print("RESPONSE FROM LEX", response)
 
+
     # Handle invalid user searches
     if 'slots' not in response or 'food' not in response['slots'] or response['slots']['food'] is None:
         return {
@@ -54,8 +55,10 @@ def lambda_handler(event, context):
 
     # Extract labels
     food_search = response['slots']['food']
+    food_search2 = response['slots']['secondfood']
 
     print("SEARCH FOOD", food_search)
+    print("SECOND FOOD", food_search2)
 
 
     # ElasticSearch auth
@@ -84,8 +87,10 @@ def lambda_handler(event, context):
             searchresults.append(hit['_id'])
     # https://elasticsearch-py.readthedocs.io/en/v7.11.0/
 
+
     # Call search function
-    elasticsearch_helper(food_search)
+    for i in [food_search, food_search2]:
+        elasticsearch_helper(i)
     print('SEARCH RESULTS', searchresults)
 
     # Remove duplicate files
