@@ -50,7 +50,7 @@ async function searchAPI(params, body, additionalParams){
                 let currId = recipeDetails.id
                 let currImage = recipeDetails.image
                 if (currImage == "No Image" || currImage == "") {
-                    currImage = "images/defaultfood.png"
+                    currImage = "images/default-food.jpg"
                 }
                 let currTitle = recipeDetails.title
 
