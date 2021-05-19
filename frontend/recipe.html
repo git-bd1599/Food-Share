@@ -112,7 +112,7 @@
           var instructions = result.data.results.instructions //html string
 
           $('#recipe-title').html(title)
-          if (image != "No Image") {
+          if (image != "No Image" || image != "") {
             $('#recipe-image').attr('src', image)
           }
 
