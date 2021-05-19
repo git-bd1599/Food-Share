@@ -49,6 +49,9 @@ async function searchAPI(params, body, additionalParams){
 
                 let currId = recipeDetails.id
                 let currImage = recipeDetails.image
+                if (currImage == "No Image") {
+                    currImage = "images/defaultfood.png"
+                }
                 let currTitle = recipeDetails.title
 
                 let currAnchor = "http://search-exchange-recipes.s3-website-us-east-1.amazonaws.com/recipe.html?id=" + currId
