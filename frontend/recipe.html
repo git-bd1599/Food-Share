@@ -96,6 +96,26 @@
     var sPageURL = window.location.search.substring(1)
     var id = sPageURL.split('=')[1] //"632071"
 
+    function isAlpha(str) {
+      return /^[a-zA-Z]+$/.test(str)
+    }
+
+    var userName = ""
+    var idStart = 0
+    if (isAlpha(id[0])) {
+      for (var i = 0; i < id.length; i++) {
+        if (!isAlpha(id[i])) {
+          idStart = i
+          break
+        }
+      }
+      userName = id.substring(0, idStart)
+    }
+    console.log("userName")
+    console.log(userName)
+
+
+
     searchRecipe(id)
 
     function searchRecipe(id) {
@@ -106,6 +126,13 @@
 
       return apigClient.searchGet(params, body, additionalParams)
         .then(function (result) {
+          if (userName != "") {
+            $('#user-name-link').html(userName)
+          } else {
+            $('#user-name-row').attr('hidden', true)
+          }
+
+
           var title = result.data.results.title //string
           var image = result.data.results.image //http string
           var ingredients = result.data.results.ingredients //array
@@ -117,31 +144,26 @@
           }
 
           //output ingredients
-          function isAlpha(str) {
-            return /^[a-zA-Z]+$/.test(str)
-          }
-
-          for (var i=0; i<ingredients.length; i++) {
+          for (var i = 0; i < ingredients.length; i++) {
             var currLine = ingredients[i]
             var descStart = 0
 
-            for (var j=0; j<currLine.length; j++) {
+            for (var j = 0; j < currLine.length; j++) {
               if (isAlpha(currLine[j])) {
                 descStart = j
                 break
               }
             }
-            
+
             var quant = ""
             if (descStart != 0) {
               quant = currLine.substring(0, descStart - 1).trim()
-            }     
+            }
             var desc = currLine.substring(descStart, currLine.length).trim()
 
             $('#ingredients-one-by-one').append('<dt>' + quant + '</dt><dd>' + desc + '</dd>')
-
           }
-          
+
           //output instructions
           if (instructions.startsWith('<')) {
             $('#directions-step').append(instructions)
@@ -149,7 +171,7 @@
           else {
             var instructionsList = instructions.split(/\r?\n/)
             var newInstruction = ""
-            for (var i=0; i<instructionsList.length; i++) {
+            for (var i = 0; i < instructionsList.length; i++) {
               if (instructionsList[i].trim() != "") {
                 newInstruction += '<li>' + instructionsList[i] + '</li>'
               }
@@ -188,6 +210,13 @@
           <div class="col-md-4 pull-right wow lightSpeedIn">
             <div class="recipe-info">
               <h3>Info</h3>
+              <!-- Maker Username -->
+              <div class="row" id="user-name-row">
+                <div class="col-2 text-center">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                </div>
+                <div class="col-10" id="user-name-link"></div>
+              </div>
               <!-- Time -->
               <div class="row">
                 <div class="col-2 text-center">
@@ -236,7 +265,7 @@
         <div class="col-12">
           <div class="recipe-directions">
             <h3 id="directions-step">Directions</h3>
-            
+
           </div>
         </div>
       </div>
