@@ -1,4 +1,4 @@
-// Function to search for recipes
+// Function to search for recipes *
 // ---------------------------------------------------------------------------------------
 function searchRecipe(e) {
     e.preventDefault()
@@ -64,6 +64,83 @@ async function searchAPI(params, body, additionalParams){
 }
 
 
+// Function to get recommendations
+// ---------------------------------------------------------------------------------------
+// Recommendations using API /GET method
+async function recommendAPI(params, body, additionalParams){
+
+    // Connect to API Gateway
+    let apigClient = apigClientFactory.newClient();
+    console.log("apigClient", apigClient);
+
+    try {
+        // API GATEWAY
+        const getresponse = await apigClient.recommendGet(params, body, additionalParams);
+
+        if (getresponse) {
+            console.log("RESPONSE", getresponse)
+            let recipesList = getresponse.data;
+
+            console.log("RECIPES LIST", recipesList)
+            if (recipesList.length === 0){
+                let pNode = document.createElement('P');
+                let textnode = document.createTextNode("No recipes found.");
+                pNode.append(textnode);
+                document.getElementById("photo-grid").appendChild(pNode);
+                return
+            }
+
+            // Render recipes
+            for (i=0; i<recipesList.length; i++){
+                let recipeDetails = recipesList[i][0]
+                console.log("RECIPE DETAILS", recipeDetails)
+                let pic = document.createElement('img');
+                pic.src = recipeDetails.image;
+                pic.style.margin = "3px";
+                pic.style.height = "70px";
+                document.getElementById("photo-grid").appendChild(pic);
+
+                let pNode = document.createElement('P');
+                let title = document.createTextNode(recipeDetails.title)
+                pNode.append(title);
+                document.getElementById("photo-grid").appendChild(pNode)
+            }
+        }
+    } catch (error){
+        console.log("Error", error);
+    }
+}
+
+function getRecommenations(){
+    // Get user data from Cognito
+    let data = {
+        UserPoolId: config.cognito.userPoolId,
+        ClientId: config.cognito.clientId
+    };
+
+    let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+    let userPool =  new AmazonCognitoIdentity.CognitoUserPool(data);
+    let cognitoUser = userPool.getCurrentUser();
+
+    let username;
+    if (cognitoUser) {
+        username = cognitoUser.username
+    } else {
+        username = ''
+    }
+
+    console.log("USERNAME", username)
+
+    var params = {q: username};
+    var body = {
+        "username": username,
+    };
+    var additionalParams = {};
+
+    recommendAPI(params, body, additionalParams);
+}
+
+
 
 // Function to add new recipes
 // ---------------------------------------------------------------------------------------
@@ -78,6 +155,29 @@ function uploadNewRecipe(e){
 
     console.log("FORM DETAILS", title, imageurl, ingredients, instructions)
 
+    // Get user data from Cognito
+    let data = {
+        UserPoolId: config.cognito.userPoolId,
+        ClientId: config.cognito.clientId
+    };
+    console.log("DATA", data);
+
+    let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+    let userPool =  new AmazonCognitoIdentity.CognitoUserPool(data);
+    let cognitoUser = userPool.getCurrentUser();
+
+    let username;
+    if (cognitoUser) {
+        username = cognitoUser.username
+    } else {
+        username = ''
+    }
+
+    console.log("USER POOL", userPool)
+    console.log("cognito user", cognitoUser)
+    console.log("username", username)
+
+
     // Uploading recipe via API /PUT method
     async function uploadRecipePUT() {
         e.preventDefault();
@@ -91,6 +191,7 @@ function uploadNewRecipe(e){
             "Content-Type": "multipart/form-data"
         };
         let body = {
+            "username": username,
             "title": title,
             "imageurl": imageurl,
             "ingredients": ingredients,
