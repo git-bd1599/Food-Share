@@ -150,7 +150,9 @@
             var instructionsList = instructions.split(/\r?\n/)
             var newInstruction = ""
             for (var i=0; i<instructionsList.length; i++) {
-              newInstruction += '<li>' + instructionsList[i] + '</li>'
+              if (instructionsList[i].trim() != "") {
+                newInstruction += '<li>' + instructionsList[i] + '</li>'
+              }
             }
             newInstruction = '<ol>' + newInstruction + '</ol>'
 
