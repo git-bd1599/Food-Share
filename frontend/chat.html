@@ -69,6 +69,10 @@
             <li class="nav-item">
               <a class="nav-link" id="bartor-nav-button" href="barter.html">Barter</a>
             </li>
+            <li class="btn" style="float: right;">
+              <button type="button" class="btn btn-outline-dark btn-sm btn-block" id="sign-out-nav-button"
+                onclick="signOut()">Sign Out</button>
+            </li>
         </ul>
       </div>
     </nav>
@@ -136,26 +140,6 @@
     <script src=index.js></script>
     <!-- For Voice Accessibility. Source: github.com/amazon-archives/amazon-transcribe-websocket-static -->
     <script src="dist/main.js"></script>
-
-    <script>
-      let data = {
-        UserPoolId: config.cognito.userPoolId,
-        ClientId: config.cognito.clientId
-      }
-      console.log("DATA", data)
-      let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
-      let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
-      var cognitoUser = userPool.getCurrentUser()
-      console.log("cognito user", cognitoUser)
-  
-      if (cognitoUser == null) {
-        $('#add-recipe-nav-button').attr('hidden', true)
-        $('#recommendations-nav-button').attr('hidden', true)
-        $('#bartor-nav-button').attr('hidden', true)
-        $('#login-button').attr('hidden', false)
-        $('#signup-button').attr('hidden', false)
-      }
-    </script>
 
 </body>
 </html>
