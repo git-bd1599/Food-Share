@@ -62,25 +62,25 @@ def lambda_handler(event, context):
 
 
     # Add recipe id to user's table
-    try: # append to existing user
-        result = usersTable.update_item(
-            Key={
-                'username': username,
-            },
-            UpdateExpression="SET savedrecipes = list_append(savedrecipes, :i)",
-            ExpressionAttributeValues={
-                ':i': [recipe_id],
-            },
-            ReturnValues="UPDATED_NEW"
-        )
-    except: # add new user entry
-        print("EXCEPT", username)
-        result = usersTable.put_item(
-            Item = {
-                'username': username,
-                'savedrecipes': [recipe_id]
-            }
-        )
+    # try: # append to existing user
+    #     result = usersTable.update_item(
+    #         Key={
+    #             'username': username,
+    #         },
+    #         UpdateExpression="SET savedrecipes = list_append(savedrecipes, :i)",
+    #         ExpressionAttributeValues={
+    #             ':i': [recipe_id],
+    #         },
+    #         ReturnValues="UPDATED_NEW"
+    #     )
+    # except: # add new user entry
+    #     print("EXCEPT", username)
+    #     result = usersTable.put_item(
+    #         Item = {
+    #             'username': username,
+    #             'savedrecipes': [recipe_id]
+    #         }
+    #     )
 
 
     # Add recipe to elasticsearch

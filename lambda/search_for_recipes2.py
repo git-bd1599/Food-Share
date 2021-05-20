@@ -89,7 +89,8 @@ def lambda_handler(event, context):
 
 
     # Call search function
-    for i in [food_search, food_search2]:
+    searchquery = [food_search, food_search2] if food_search2 else [food_search]
+    for i in searchquery:
         elasticsearch_helper(i)
     print('SEARCH RESULTS', searchresults)
 
@@ -124,5 +125,4 @@ def lambda_handler(event, context):
         "statusCode": 200,
         'headers': {"Access-Control-Allow-Origin": "*"},
         "body": json.dumps(recipe_details)
-        # "isBase64Encoded": true|false,
     }
