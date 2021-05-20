@@ -1,3 +1,19 @@
+let data = {
+    UserPoolId: config.cognito.userPoolId,
+    ClientId: config.cognito.clientId
+}
+console.log("DATA", data)
+let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
+let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
+var cognitoUser = userPool.getCurrentUser()
+console.log("cognito user", cognitoUser)
+
+if (cognitoUser == null) {
+    $('#add-recipe-nav-button').attr('hidden', true)
+    $('#recommendations-nav-button').attr('hidden', true)
+    $('#bartor-nav-button').attr('hidden', true)
+}
+
 // Function to search for recipes *
 // ---------------------------------------------------------------------------------------
 function searchRecipe(e) {
@@ -11,7 +27,7 @@ function searchRecipe(e) {
     let searchquery = $('#transcript').val();
     console.log("SEARCH QUERY: ", searchquery);
 
-    var params = {q: searchquery};
+    var params = { q: searchquery };
     var body = {};
     var additionalParams = {};
 
@@ -20,7 +36,7 @@ function searchRecipe(e) {
 
 
 // Search using API /GET method
-async function searchAPI(params, body, additionalParams){
+async function searchAPI(params, body, additionalParams) {
 
     // Connect to API Gateway
     let apigClient = apigClientFactory.newClient();
@@ -33,7 +49,7 @@ async function searchAPI(params, body, additionalParams){
         if (getresponse) {
             console.log("RESPONSE", getresponse)
             let recipes = getresponse.data;
-            if (recipes.length === 0){
+            if (recipes.length === 0) {
                 let pNode = document.createElement('P');
                 let textnode = document.createTextNode("No recipes found.");
                 pNode.append(textnode);
@@ -43,7 +59,7 @@ async function searchAPI(params, body, additionalParams){
 
             let recipesList = getresponse.data
             // Render recipes
-            for (i=0; i<recipesList.length; i++){
+            for (i = 0; i < recipesList.length; i++) {
                 let recipeDetails = recipesList[i][0]
                 console.log("RECIPE DETAILS", recipeDetails)
 
@@ -59,7 +75,7 @@ async function searchAPI(params, body, additionalParams){
                 $('#photo-grid').append('<img src="' + currImage + '" style="margin: 3px; height: 70px;"><p><a href="' + currAnchor + '">' + currTitle + '</a></p>')
             }
         }
-    } catch (error){
+    } catch (error) {
         console.log("Error", error);
     }
 }
@@ -68,7 +84,7 @@ async function searchAPI(params, body, additionalParams){
 // Function to get recommendations
 // ---------------------------------------------------------------------------------------
 // Recommendations using API /GET method
-async function recommendAPI(params, body, additionalParams){
+async function recommendAPI(params, body, additionalParams) {
 
     // Connect to API Gateway
     let apigClient = apigClientFactory.newClient();
@@ -83,7 +99,7 @@ async function recommendAPI(params, body, additionalParams){
             let recipesList = getresponse.data;
 
             console.log("RECIPES LIST", recipesList)
-            if (recipesList.length === 0){
+            if (recipesList.length === 0) {
                 let pNode = document.createElement('P');
                 let textnode = document.createTextNode("No recipes found.");
                 pNode.append(textnode);
@@ -92,7 +108,7 @@ async function recommendAPI(params, body, additionalParams){
             }
 
             // Render recipes
-            for (i=0; i<recipesList.length; i++){
+            for (i = 0; i < recipesList.length; i++) {
                 let recipeDetails = recipesList[i][0]
                 console.log("RECIPE DETAILS", recipeDetails)
                 let pic = document.createElement('img');
@@ -107,12 +123,12 @@ async function recommendAPI(params, body, additionalParams){
                 document.getElementById("photo-grid").appendChild(pNode)
             }
         }
-    } catch (error){
+    } catch (error) {
         console.log("Error", error);
     }
 }
 
-function getRecommendations(){
+function getRecommendations() {
     // Get user data from Cognito
     let data = {
         UserPoolId: config.cognito.userPoolId,
@@ -120,7 +136,7 @@ function getRecommendations(){
     };
 
     let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
-    let userPool =  new AmazonCognitoIdentity.CognitoUserPool(data);
+    let userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
     let cognitoUser = userPool.getCurrentUser();
 
     let username;
@@ -132,7 +148,7 @@ function getRecommendations(){
 
     console.log("USERNAME", username)
 
-    var params = {q: username};
+    var params = { q: username };
     var body = {
         "username": username,
     };
@@ -145,7 +161,7 @@ function getRecommendations(){
 
 // Function to add new recipes
 // ---------------------------------------------------------------------------------------
-function uploadNewRecipe(e){
+function uploadNewRecipe(e) {
     e.preventDefault();
     console.log('Uploading new recipe')
 
@@ -163,7 +179,7 @@ function uploadNewRecipe(e){
     };
 
     let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
-    let userPool =  new AmazonCognitoIdentity.CognitoUserPool(data);
+    let userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
     let cognitoUser = userPool.getCurrentUser();
 
     let username;
