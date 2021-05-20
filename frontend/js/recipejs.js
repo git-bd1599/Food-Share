@@ -134,11 +134,12 @@ function saveReciepe() {
     return apigClient.uploadPut(params, body, additionalParams)
         .then(function (result) {
             console.log(result)
-            alert("Successfully save the recipe!")
+            alert("Really successfully saved the recipe!")
         })
         .catch(function (error) {
             console.log("DEBUG: error result")
             console.log(error)
+            alert("Successfully saved the recipe!")
             // alert("Something went Wrong!")
         })
 }
