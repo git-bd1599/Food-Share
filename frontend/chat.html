@@ -34,8 +34,9 @@
     <script src="./assets/js/lex/sdk/apigClient.js"></script>
 
     <!-- AWS SDK -->
+    <script src="./js/aws/amazon-cognito-identity.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
-    <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
+    <script src="./js/config.js"></script>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -57,16 +58,16 @@
               <a class="nav-link" href="search.html">Search</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="addrecipe.html">Add Recipe</a>
+              <a class="nav-link" id="add-recipe-nav-button" href="addrecipe.html">Add Recipe</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="chat.html">Chat</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="recommendations.html">Recommendations</a>
+              <a class="nav-link" id="recommendations-nav-button" href="recommendations.html">Recommendations</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="barter.html">Barter</a>
+              <a class="nav-link" id="bartor-nav-button" href="barter.html">Barter</a>
             </li>
         </ul>
       </div>
@@ -135,6 +136,26 @@
     <script src=index.js></script>
     <!-- For Voice Accessibility. Source: github.com/amazon-archives/amazon-transcribe-websocket-static -->
     <script src="dist/main.js"></script>
+
+    <script>
+      let data = {
+        UserPoolId: config.cognito.userPoolId,
+        ClientId: config.cognito.clientId
+      }
+      console.log("DATA", data)
+      let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
+      let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
+      var cognitoUser = userPool.getCurrentUser()
+      console.log("cognito user", cognitoUser)
+  
+      if (cognitoUser == null) {
+        $('#add-recipe-nav-button').attr('hidden', true)
+        $('#recommendations-nav-button').attr('hidden', true)
+        $('#bartor-nav-button').attr('hidden', true)
+        $('#login-button').attr('hidden', false)
+        $('#signup-button').attr('hidden', false)
+      }
+    </script>
 
 </body>
 </html>
