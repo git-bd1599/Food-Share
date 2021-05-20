@@ -139,6 +139,6 @@ function saveReciepe() {
         .catch(function (error) {
             console.log("DEBUG: error result")
             console.log(error)
-            alert("Something went Wrong!")
+            // alert("Something went Wrong!")
         })
 }
