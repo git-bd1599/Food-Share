@@ -62,6 +62,10 @@
         <li class="nav-item">
           <a class="nav-link" id="bartor-nav-button" href="barter.html">Barter</a>
         </li>
+        <li class="btn" style="float: right;">
+          <button type="button" class="btn btn-outline-dark btn-sm btn-block" id="sign-out-nav-button"
+            onclick="signOut()">Sign Out</button>
+        </li>
       </ul>
     </div>
   </nav>
@@ -114,6 +118,14 @@
       $('#add-recipe-nav-button').attr('hidden', true)
       $('#recommendations-nav-button').attr('hidden', true)
       $('#bartor-nav-button').attr('hidden', true)
+      $('#sign-out-nav-button').attr('hidden', true)
+    }
+
+    function signOut() {
+      if (cognitoUser != null) {
+        cognitoUser.signOut();
+        window.open("login.html", "_self");
+      }
     }
   </script>
 
