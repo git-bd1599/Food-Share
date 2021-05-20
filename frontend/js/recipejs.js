@@ -14,6 +14,9 @@ console.log("cognito user", cognitoUser)
 
 if (cognitoUser == null) {
     $('#save-recipe-button').attr('hidden', true)
+    $('#add-recipe-nav-button').attr('hidden', true)
+    $('#recommendations-nav-button').attr('hidden', true)
+    $('#bartor-nav-button').attr('hidden', true)
 }
 
 
