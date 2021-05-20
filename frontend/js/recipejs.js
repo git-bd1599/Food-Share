@@ -2,7 +2,7 @@ var apigClient = apigClientFactory.newClient()
 var sPageURL = window.location.search.substring(1)
 var id = sPageURL.split('=')[1] //"632071"
 
-
+console.log("START")
 let data = {
     UserPoolId: config.cognito.userPoolId,
     ClientId: config.cognito.clientId
