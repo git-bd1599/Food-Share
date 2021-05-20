@@ -230,4 +230,5 @@ function uploadNewRecipe(e) {
     }
 
     uploadRecipePUT()
+    alert("Recipe added")
 }
