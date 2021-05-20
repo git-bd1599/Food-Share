@@ -112,7 +112,7 @@ async function recommendAPI(params, body, additionalParams){
     }
 }
 
-function getRecommenations(){
+function getRecommendations(){
     // Get user data from Cognito
     let data = {
         UserPoolId: config.cognito.userPoolId,
@@ -161,7 +161,6 @@ function uploadNewRecipe(e){
         UserPoolId: config.cognito.userPoolId,
         ClientId: config.cognito.clientId
     };
-    console.log("DATA", data);
 
     let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
     let userPool =  new AmazonCognitoIdentity.CognitoUserPool(data);
@@ -174,7 +173,6 @@ function uploadNewRecipe(e){
         username = ''
     }
 
-    console.log("USER POOL", userPool)
     console.log("cognito user", cognitoUser)
     console.log("username", username)
 
