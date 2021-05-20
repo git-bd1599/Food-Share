@@ -234,15 +234,16 @@
           <h1>Barter Form</h1>
         </div>
         <div class="item">
-          <p>Recipe</p>
           <div class="name-item">
-            <input id="recipe" type="text" name="recipe" placeholder="Recipe ID" required/>
+            <label for="recipes">Recipe</label>
+                <select id="recipes" name="recipes">
+                </select>
           </div>
         </div>
         <div class="item">
           <p>Username</p>
           <div class="name-item">
-            <input id="username" type="text" name="First" placeholder="Username" required/>
+            <input id="username" type="text" name="username" placeholder="Username">
           </div>
         </div>
         <div class="item">
@@ -261,7 +262,9 @@
         <div class="item">
           <p>Address</p>
           <input id="address" type="text" name="name" placeholder="Full Street Address" required/>
-          <input id="city" type="text" name="name" placeholder="City (2 letter Code)" required/>
+          <input id="city" type="text" name="name" placeholder="City" required/>
+          <input id="state" type="text" name="name" placeholder="State" required/>
+          <input id="zip" type="text" name="name" placeholder="Zipcode" required/>
         </div>
         <div class="btn-block">
           <form action="barter.html">
