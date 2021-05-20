@@ -137,7 +137,7 @@ function saveReciepe() {
             alert("Really successfully saved the recipe!")
         })
         .catch(function (error) {
-            console.log("DEBUG: error result")
+            console.log("DEBUG: the error result")
             console.log(error)
             alert("Successfully saved the recipe!")
             // alert("Something went Wrong!")
