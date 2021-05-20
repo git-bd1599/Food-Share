@@ -1,3 +1,16 @@
+// //insert pool id of your congito pool
+// const IdentityPoolId = 'us-east-1:561ca273-9c58-4922-91f0-ba746a6023b4;'
+// const credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId })
+// //insert your region
+// const region = 'us-east-1';
+// AWS.config.update({
+//   region,
+//   credentials
+// });
+// const ddb = new AWS.DynamoDB({
+//   apiVersion: '2012-10-08'
+// });
+
 // Function to add new recipes
 // ---------------------------------------------------------------------------------------
 function addBarter(e){
@@ -42,7 +55,7 @@ function addBarter(e){
 
         document.getElementById('barter-form').reset()
         alert('Barter Form has been submitted!')
-        document.location.href="barter.html"
+        // document.location.href="barter.html"
     }
 
     addBarterPUT()
