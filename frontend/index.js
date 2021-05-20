@@ -1,19 +1,3 @@
-let data = {
-    UserPoolId: config.cognito.userPoolId,
-    ClientId: config.cognito.clientId
-}
-console.log("DATA", data)
-let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
-let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
-var cognitoUser = userPool.getCurrentUser()
-console.log("cognito user", cognitoUser)
-
-if (cognitoUser == null) {
-    $('#add-recipe-nav-button').attr('hidden', true)
-    $('#recommendations-nav-button').attr('hidden', true)
-    $('#bartor-nav-button').attr('hidden', true)
-}
-
 // Function to search for recipes *
 // ---------------------------------------------------------------------------------------
 function searchRecipe(e) {

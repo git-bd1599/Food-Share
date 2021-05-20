@@ -26,8 +26,9 @@
   <script src="./assets/js/search/sdk/apigClient.js"></script>
 
   <!-- AWS SDK -->
+  <script src="./js/aws/amazon-cognito-identity.min.js"></script>
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
-  <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
+  <script src="./js/config.js"></script>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -98,6 +99,23 @@
 
   <!-- For Search Function -->
   <script src=index.js></script>
+  <script>
+    let data = {
+      UserPoolId: config.cognito.userPoolId,
+      ClientId: config.cognito.clientId
+    }
+    console.log("DATA", data)
+    let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
+    let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
+    var cognitoUser = userPool.getCurrentUser()
+    console.log("cognito user", cognitoUser)
+
+    if (cognitoUser == null) {
+      $('#add-recipe-nav-button').attr('hidden', true)
+      $('#recommendations-nav-button').attr('hidden', true)
+      $('#bartor-nav-button').attr('hidden', true)
+    }
+  </script>
 
 </body>
 
