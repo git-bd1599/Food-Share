@@ -21,11 +21,11 @@ function addBarter(e){
     const username = document.getElementById("username").value
     const date = document.getElementById("date").value
     const comments = document.getElementById("comments").value
-    const email = document.getElementById("email").value
+    const phone = document.getElementById("phone").value
     const address = document.getElementById("address").value
-    const zip = document.getElementById("zip").value
+    const city = document.getElementById("city").value
 
-    console.log("FORM DETAILS", username, name, date, comments, email, address, zip)
+    console.log("FORM DETAILS", username, name, date, comments, phone, address, city)
 
     // Uploading recipe via API /PUT method
     async function addBarterPUT() {
@@ -44,9 +44,9 @@ function addBarter(e){
               'username': username,
               'date': date,
               'comments': comments,
-              'email': email,
+              'phone': phone,
               'address': address,
-              'zip': zip,
+              'city': city,
         };
         let additionalParams = {};
 
@@ -60,6 +60,7 @@ function addBarter(e){
 
     addBarterPUT()
 }
+
 
 //
 // const barterTable = 'barter';

@@ -16,15 +16,31 @@
     <link href="css/login.css" rel="stylesheet">
     <link href="css/map.css" rel="stylesheet">
 
+    <script src="./assets/js/bartermap/sdk/lib/axios/dist/axios.standalone.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/CryptoJS/rollups/sha256.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/CryptoJS/components/hmac.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/CryptoJS/components/enc-base64.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/url-template/url-template.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script src="./assets/js/bartermap/sdk/lib/apiGatewayCore/utils.js"></script>
+
+    <script src="./assets/js/bartermap/sdk/apigClient.js"></script>
+
     <!-- AWS SDK -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
     <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
-
+    <script src="bartermap.js"></script>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
     body { margin: 0; padding: 0; }
     #map { position: absolute; top: 10%; bottom: 0; left: 25%; width: 100%; }
+
+
+
 </style>
 </head>
 
@@ -59,78 +75,122 @@
       </div>
     </nav>
 
-    <a href="barter_form.html" class="button">Submit a New Barter</a>
 
     <div id='map' style='width: 1000px; height: 1000px;'></div>
-    <script>
-      mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamk3ODkwIiwiYSI6ImNrb2x2NnF1NDIxNzAydnB3dGlrczF6d24ifQ.U4UVnWoUly_S7eX0ughcKA';
-      var geojson = {
-            'type': 'FeatureCollection',
-            'features': [
-                {
-                'type': 'Feature',
-                'geometry': {
-                    'type': 'Point',
-                    'coordinates': [-73.98942382060196, 40.72833953315878]
-                },
-                'properties': {
-                    'title': 'Pad Thai',
-                    'user': 'Poon',
-                    'image': 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg',
-                }
-                },
-                {
-                'type': 'Feature',
-                'geometry': {
-                    'type': 'Point',
-                    'coordinates': [-73.99963025072168, 40.752851322116996]
-                },
-                'properties': {
-                    'title': 'Bibimbap',
-                    'user': 'Jin Lee',
-                    'image': 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg',
-                }
-                },
-                ]
-      };
+<!--    <script>-->
+<!--      mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamk3ODkwIiwiYSI6ImNrb2x2NnF1NDIxNzAydnB3dGlrczF6d24ifQ.U4UVnWoUly_S7eX0ughcKA';-->
+<!--      // var geojson = {-->
+<!--      //       'type': 'FeatureCollection',-->
+<!--      //       'features': [-->
+<!--      //           {-->
+<!--      //           'type': 'Feature',-->
+<!--      //           'geometry': {-->
+<!--      //               'type': 'Point',-->
+<!--      //               'coordinates': [-73.98942382060196, 40.72833953315878]-->
+<!--      //           },-->
+<!--      //           'properties': {-->
+<!--      //               'title': 'Pad Thai',-->
+<!--      //               'user': 'Poon',-->
+<!--      //               'image': 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg',-->
+<!--      //           }-->
+<!--      //           },-->
+<!--      //           {-->
+<!--      //           'type': 'Feature',-->
+<!--      //           'geometry': {-->
+<!--      //               'type': 'Point',-->
+<!--      //               'coordinates': [-73.99963025072168, 40.752851322116996]-->
+<!--      //           },-->
+<!--      //           'properties': {-->
+<!--      //               'title': 'Bibimbap',-->
+<!--      //               'user': 'Jin Lee',-->
+<!--      //               'image': 'https://farm9.staticflickr.com/8571/15844010757_63b093d527_n.jpg',-->
+<!--      //           }-->
+<!--      //           },-->
+<!--      //           ]-->
+<!--      // };-->
 
-      var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-73.9592492763008,40.722485940954854],
-        zoom: 12
-      });
+<!--      // var map = new mapboxgl.Map({-->
+<!--      //   container: 'map',-->
+<!--      //   style: 'mapbox://styles/mapbox/streets-v11',-->
+<!--      //   center: [-73.9592492763008,40.722485940954854],-->
+<!--      //   zoom: 12-->
+<!--      // });-->
+<!--      //-->
+<!--      //-->
+<!--      //   // add markers to map-->
+<!--      //   geojson.features.forEach(function (marker) {-->
+<!--      //       // create a HTML element for each feature-->
+<!--      //       var el = document.createElement('div');-->
+<!--      //       el.className = 'marker';-->
+<!--      //-->
+<!--      //       // make a marker for each feature and add it to the map-->
+<!--      //       new mapboxgl.Marker(el)-->
+<!--      //           .setLngLat(marker.geometry.coordinates)-->
+<!--      //           .setPopup(-->
+<!--      //               new mapboxgl.Popup({offset: 25}) // add popups-->
+<!--      //                   .setHTML(-->
+<!--      //                       '<h4>' +-->
+<!--      //                       marker.properties.title +'</h4> <p>' + marker.properties.user+'</p>' + '<img src="marker.properties.image">'-->
+<!--      //                   )-->
+<!--      //           )-->
+<!--      //           .addTo(map);-->
+<!--      //   });-->
+<!--      // var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(-->
+<!--      //     "Pad Thai"-->
+<!--      // )-->
+
+<!--      // var marker1 = new mapboxgl.Marker()-->
+<!--      //       .setLngLat([-73.98942382060196, 40.72833953315878])-->
+<!--      //       .setPopup(popup)-->
+<!--      //       .addTo(map);-->
+
+<!--    // </script>-->
+
+<!--<script>-->
+<!--        // Connect to API Gateway-->
+<!--    let apigClient = apigClientFactory.newClient();-->
+<!--    console.log("apigClient", apigClient);-->
+
+<!--    try {-->
+<!--        // API GATEWAY-->
+<!--        const getresponse = await apigClient.rootGet(params, body, additionalParams);-->
+
+<!--        if (getresponse) {-->
+<!--            console.log("RESPONSE", getresponse)-->
+<!--            let geojson = getresponse.data;-->
+<!--            mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuamk3ODkwIiwiYSI6ImNrb2x2NnF1NDIxNzAydnB3dGlrczF6d24ifQ.U4UVnWoUly_S7eX0ughcKA';-->
+<!--            var map = new mapboxgl.Map({-->
+<!--            container: 'map',-->
+<!--            style: 'mapbox://styles/mapbox/streets-v11',-->
+<!--            center: [-73.9592492763008,40.722485940954854],-->
+<!--            zoom: 12-->
+<!--          });-->
 
 
-        // add markers to map
-        geojson.features.forEach(function (marker) {
-            // create a HTML element for each feature
-            var el = document.createElement('div');
-            el.className = 'marker';
+<!--            // add markers to map-->
+<!--            geojson.features.forEach(function (marker) {-->
+<!--                // create a HTML element for each feature-->
+<!--                var el = document.createElement('div');-->
+<!--                el.className = 'marker';-->
 
-            // make a marker for each feature and add it to the map
-            new mapboxgl.Marker(el)
-                .setLngLat(marker.geometry.coordinates)
-                .setPopup(
-                    new mapboxgl.Popup({offset: 25}) // add popups
-                        .setHTML(
-                            '<h4>' +
-                            marker.properties.title +'</h4> <p>' + marker.properties.user+'</p>' + '<img src="marker.properties.image">'
-                        )
-                )
-                .addTo(map);
-        });
-      // var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-      //     "Pad Thai"
-      // )
+<!--                // make a marker for each feature and add it to the map-->
+<!--                new mapboxgl.Marker(el)-->
+<!--                    .setLngLat(marker.geometry.coordinates)-->
+<!--                    .setPopup(-->
+<!--                        new mapboxgl.Popup({offset: 25}) // add popups-->
+<!--                            .setHTML(-->
+<!--                                '<h4>' +-->
+<!--                                marker.properties.title +'</h4> <p>' + marker.properties.user+'</p>' + '<img src="marker.properties.image">'-->
+<!--                            )-->
+<!--                    )-->
+<!--                    .addTo(map);-->
+<!--            });-->
+<!--        }-->
 
-      // var marker1 = new mapboxgl.Marker()
-      //       .setLngLat([-73.98942382060196, 40.72833953315878])
-      //       .setPopup(popup)
-      //       .addTo(map);
-
-    </script>
-
+<!--    } catch (error){-->
+<!--        console.log("Error", error);-->
+<!--    }-->
+<!--</script>-->
 
 </body>
 </html>
