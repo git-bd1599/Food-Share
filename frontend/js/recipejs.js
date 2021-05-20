@@ -60,6 +60,7 @@ function searchRecipe(id) {
             var ingredients = result.data.results.ingredients //array
             var instructions = result.data.results.instructions //html string
 
+            $('#top-title').html(title + " | Recipe Book")
             $('#recipe-title').html(title)
             if (image != "No Image" && image != "") {
                 $('#recipe-image').attr('src', image)
@@ -112,3 +113,6 @@ function searchRecipe(id) {
 }
 
 
+function saveReciepe() {
+
+}

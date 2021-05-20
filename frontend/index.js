@@ -54,8 +54,7 @@ async function searchAPI(params, body, additionalParams){
                 }
                 let currTitle = recipeDetails.title
 
-                let currAnchor = "http://search-exchange-recipes.s3-website-us-east-1.amazonaws.com/recipe.html?id=" + currId
-                // let currAnchor = "https://dch04u22l9237.cloudfront.net/recipe.html?id=" + currId
+                let currAnchor = "https://dch04u22l9237.cloudfront.net/recipe.html?id=" + currId
 
                 $('#photo-grid').append('<img src="' + currImage + '" style="margin: 3px; height: 70px;"><p><a href="' + currAnchor + '">' + currTitle + '</a></p>')
             }
