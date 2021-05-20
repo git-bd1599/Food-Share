@@ -104,13 +104,6 @@
 
       console.log("COGNITO USER", cognitoUser)
 
-      if (cognitoUser == null) {
-      $('#add-recipe-nav-button').attr('hidden', true)
-      $('#recommendations-nav-button').attr('hidden', true)
-      $('#bartor-nav-button').attr('hidden', true)
-    }
-
-
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
           let accessToken = result.getAccessToken().getJwtToken();
@@ -125,6 +118,24 @@
       // Reference: https://www.youtube.com/watch?v=rOaUyCM-fcE&ab_channel=NikhilRao
 
   </script>
+
+<script>
+  let data = {
+    UserPoolId: config.cognito.userPoolId,
+    ClientId: config.cognito.clientId
+  }
+  console.log("DATA", data)
+  let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
+  let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
+  var cognitoUser = userPool.getCurrentUser()
+  console.log("cognito user", cognitoUser)
+
+  if (cognitoUser == null) {
+    $('#add-recipe-nav-button').attr('hidden', true)
+    $('#recommendations-nav-button').attr('hidden', true)
+    $('#bartor-nav-button').attr('hidden', true)
+  }
+</script>
 
 
 </body>
