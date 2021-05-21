@@ -33,6 +33,7 @@
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.874.0.min.js"></script>
     <!-- <script src="./assets/js/aws-sdk.min.js"></script> -->
     <script src="bartermap.js"></script>
+    <script src="index.js"></script>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
@@ -71,6 +72,10 @@
               <li class="nav-item">
                   <a class="nav-link" href="barter.html">Barter</a>
               </li>
+              <li class="btn" style="float: right;">
+          <button type="button" class="btn btn-outline-dark btn-sm btn-block" id="sign-out-nav-button"
+            onclick="signOut()">Sign Out</button>
+                </li>
           </ul>
       </div>
     </nav>
