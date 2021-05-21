@@ -30,6 +30,8 @@
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.211.1.min.js"></script>
     <script src="./js/config.js"></script>
 
+    <script src="index.js"></script>
+
     <style>
       html, body {
       min-height: 100%;
@@ -207,24 +209,37 @@
 </head>
 
 <body>
-       <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-        <div class = "container-fluid">
-            <a class="navbar-brand" href="#"><img src = "images/logo.png" style=width:50px;margin:-5px></a>
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+      <div class = "container-fluid">
+          <a class="navbar-brand" href="#"><img src = "images/logo.png" style=width:50px;margin:-5px></a>
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="userprofile.html">Profile <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="search.html">Search</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="addrecipe.html">Add Recipe</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="chat.html">Chat</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="recommendations.html">Recommendations</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="barter.html">Barter</a>
+              </li>
+              <li class="btn" style="float: right;">
+          <button type="button" class="btn btn-outline-dark btn-sm btn-block" id="sign-out-nav-button"
+            onclick="signOut()">Sign Out</button>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="search.html">Search</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="chat.html">Chat</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="barter.html">Barter</a>
-                </li>
-              </ul>
-        </div>
+          </ul>
+      </div>
     </nav>
 
 <!--    Form-->
