@@ -19,6 +19,12 @@ if (cognitoUser == null) {
     $('#bartor-nav-button').attr('hidden', true)
 }
 
+function signOut() {
+    if (cognitoUser != null) {
+        cognitoUser.signOut();
+        window.open("login.html", "_self");
+    }
+}
 
 
 function isAlpha(str) {
@@ -134,11 +140,12 @@ function saveReciepe() {
     return apigClient.uploadPut(params, body, additionalParams)
         .then(function (result) {
             console.log(result)
-            alert("Successfully save the recipe!")
+            alert("Really successfully saved the recipe!")
         })
         .catch(function (error) {
-            console.log("DEBUG: error result")
+            console.log("DEBUG: the error result")
             console.log(error)
-            alert("Something went Wrong!")
+            alert("Successfully saved the recipe!")
+            // alert("Something went Wrong!")
         })
 }

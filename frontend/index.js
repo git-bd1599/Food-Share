@@ -1,26 +1,26 @@
 let data = {
     UserPoolId: config.cognito.userPoolId,
     ClientId: config.cognito.clientId
-  }
-  console.log("DATA", data)
-  let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
-  let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
-  var cognitoUser = userPool.getCurrentUser()
-  console.log("cognito user", cognitoUser)
+}
+console.log("DATA", data)
+let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
+let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
+var cognitoUser = userPool.getCurrentUser()
+console.log("cognito user", cognitoUser)
 
-  if (cognitoUser == null) {
+if (cognitoUser == null) {
     $('#add-recipe-nav-button').attr('hidden', true)
     $('#recommendations-nav-button').attr('hidden', true)
     $('#bartor-nav-button').attr('hidden', true)
     $('#sign-out-nav-button').attr('hidden', true)
-  }
+}
 
-  function signOut() {
+function signOut() {
     if (cognitoUser != null) {
-      cognitoUser.signOut();
-      window.open("login.html", "_self");
+        cognitoUser.signOut();
+        window.open("login.html", "_self");
     }
-  }
+}
 
 // Function to search for recipes *
 // ---------------------------------------------------------------------------------------
@@ -119,16 +119,17 @@ async function recommendAPI(params, body, additionalParams) {
             for (i = 0; i < recipesList.length; i++) {
                 let recipeDetails = recipesList[i][0]
                 console.log("RECIPE DETAILS", recipeDetails)
-                let pic = document.createElement('img');
-                pic.src = recipeDetails.image;
-                pic.style.margin = "3px";
-                pic.style.height = "70px";
-                document.getElementById("photo-grid").appendChild(pic);
 
-                let pNode = document.createElement('P');
-                let title = document.createTextNode(recipeDetails.title)
-                pNode.append(title);
-                document.getElementById("photo-grid").appendChild(pNode)
+                let currId = recipeDetails.id
+                let currImage = recipeDetails.image
+                if (currImage == "No Image" || currImage == "") {
+                    currImage = "images/default-food.jpg"
+                }
+                let currTitle = recipeDetails.title
+
+                let currAnchor = "https://dch04u22l9237.cloudfront.net/recipe.html?id=" + currId
+
+                $('#photo-grid').append('<img src="' + currImage + '" style="margin: 3px; height: 70px;"><p><a href="' + currAnchor + '">' + currTitle + '</a></p>')
             }
         }
     } catch (error) {
@@ -230,4 +231,5 @@ function uploadNewRecipe(e) {
     }
 
     uploadRecipePUT()
+    alert("Recipe added")
 }
