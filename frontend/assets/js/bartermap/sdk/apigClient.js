@@ -118,6 +118,42 @@ apigClientFactory.newClient = function (config) {
         return apiGatewayClient.makeRequest(rootOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
+    
+    apigClient.markerPut = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['buyerId', 'sellerId'], ['body']);
+        
+        var markerPutRequest = {
+            verb: 'put'.toUpperCase(),
+            path: pathComponent + uritemplate('/marker').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['buyerId', 'sellerId']),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(markerPutRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.markerOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var markerOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/marker').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(markerOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
 
     return apigClient;
 };

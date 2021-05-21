@@ -1,30 +1,35 @@
-//
-// let data = {
-//     UserPoolId: config.cognito.userPoolId,
-//     ClientId: config.cognito.clientId
-// }
-// console.log("DATA", data)
-// let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
-// let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
-// var cognitoUser = userPool.getCurrentUser()
-// console.log("cognito user", cognitoUser)
-//
-// if (cognitoUser == null) {
-//     $('#add-recipe-nav-button').attr('hidden', true)
-//     $('#recommendations-nav-button').attr('hidden', true)
-//     $('#bartor-nav-button').attr('hidden', true)
-//     $('#sign-out-nav-button').attr('hidden', true)
-// }
-//
-// function signOut() {
-//     if (cognitoUser != null) {
-//         cognitoUser.signOut();
-//         window.open("login.html", "_self");
-//     }
-// }
+window.onload = getUser
 
+var buyerId = "";
+function getUser() {
+    // Get user data from Cognito
+    let data = {
+        UserPoolId: config.cognito.userPoolId,
+        ClientId: config.cognito.clientId
+    };
 
-window.onload = markerDetails
+    let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+    let userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+    let cognitoUser = userPool.getCurrentUser();
+
+    let username;
+    if (cognitoUser) {
+        username = cognitoUser.username
+    } else {
+        username = ''
+    }
+
+    console.log("USERNAME", username)
+
+    var params = {q: username};
+    var body = {
+        "username": username,
+    };
+    var additionalParams = {};
+    buyerId = username
+
+    markerDetails(params,body,additionalParams)
+}
 
 async function markerDetails(params, body, additionalParams) {
 
@@ -62,7 +67,7 @@ async function markerDetails(params, body, additionalParams) {
                                 '<h5>' +'</h5><a href="https://dch04u22l9237.cloudfront.net/recipe.html?id=' + marker.properties.recipe_id + '"><h4>' +marker.properties.title +'</h4></a>'
                                 + '<img src="'+ marker.properties.image +'" style="width:150px;height:100px;">'
                                 // + '<h6> User: '+ marker.properties.user+'</h6>'
-                                +'<h6></h6><a href="https://dch04u22l9237.cloudfront.net/barter_form.html?"><h6>Contact '+marker.properties.user +' to barter!</h6></a>'
+                                +'<button onclick="sendSMS(\''+marker.properties.user +'\')"> Contact '+marker.properties.user +' to barter!</button>'
                             )
                     )
                     .addTo(map);
@@ -72,4 +77,35 @@ async function markerDetails(params, body, additionalParams) {
     } catch (error){
         console.log("Error", error);
     }
+}
+
+function sendSMS(sellerId){
+
+    console.log('Sending SMS')
+    console.log("seller", sellerId)
+    console.log("buyer", buyerId)
+    sendSMSPUT(sellerId, buyerId)
+}
+
+// Uploading recipe via API /PUT method
+async function sendSMSPUT(sellerId, buyerId) {
+
+    console.log("Step 1");
+
+    // Connect to API Gateway
+    let apigClient = apigClientFactory.newClient();
+    console.log("apigClient", apigClient);
+
+    let params = {
+        "buyerId": buyerId,
+        "sellerId": sellerId
+    };
+    
+    let body = {};
+    let additionalParams = {};
+
+    // API GATEWAY
+    apigClient.markerPut(params, body, additionalParams);
+    console.log("Sent to Put")
+    alert("We've sent a SMS to " + sellerId + " with your contact details.")
 }

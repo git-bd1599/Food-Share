@@ -31,7 +31,6 @@ function getUser(){
 
     // apigClient.idGet(params, body, additionalParams);
     userAPI(params,body,additionalParams)
-    var value = document.getElementById("username")
     document.getElementById('username').value = document.getElementById('username').text = username
 
     }
