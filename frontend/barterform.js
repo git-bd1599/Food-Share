@@ -1,3 +1,27 @@
+let data = {
+    UserPoolId: config.cognito.userPoolId,
+    ClientId: config.cognito.clientId
+}
+console.log("DATA", data)
+let CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool
+let userPool = new AmazonCognitoIdentity.CognitoUserPool(data)
+var cognitoUser = userPool.getCurrentUser()
+console.log("cognito user", cognitoUser)
+
+if (cognitoUser == null) {
+    $('#add-recipe-nav-button').attr('hidden', true)
+    $('#recommendations-nav-button').attr('hidden', true)
+    $('#bartor-nav-button').attr('hidden', true)
+    $('#sign-out-nav-button').attr('hidden', true)
+}
+
+function signOut() {
+    if (cognitoUser != null) {
+        cognitoUser.signOut();
+        window.open("login.html", "_self");
+    }
+}
+
 // //insert pool id of your congito pool
 // const IdentityPoolId = 'us-east-1:561ca273-9c58-4922-91f0-ba746a6023b4;'
 // const credentials = new AWS.CognitoIdentityCredentials({ IdentityPoolId })
