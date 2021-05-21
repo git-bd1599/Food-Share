@@ -119,16 +119,17 @@ async function recommendAPI(params, body, additionalParams) {
             for (i = 0; i < recipesList.length; i++) {
                 let recipeDetails = recipesList[i][0]
                 console.log("RECIPE DETAILS", recipeDetails)
-                let pic = document.createElement('img');
-                pic.src = recipeDetails.image;
-                pic.style.margin = "3px";
-                pic.style.height = "70px";
-                document.getElementById("photo-grid").appendChild(pic);
 
-                let pNode = document.createElement('P');
-                let title = document.createTextNode(recipeDetails.title)
-                pNode.append(title);
-                document.getElementById("photo-grid").appendChild(pNode)
+                let currId = recipeDetails.id
+                let currImage = recipeDetails.image
+                if (currImage == "No Image" || currImage == "") {
+                    currImage = "images/default-food.jpg"
+                }
+                let currTitle = recipeDetails.title
+
+                let currAnchor = "https://dch04u22l9237.cloudfront.net/recipe.html?id=" + currId
+
+                $('#photo-grid').append('<img src="' + currImage + '" style="margin: 3px; height: 70px;"><p><a href="' + currAnchor + '">' + currTitle + '</a></p>')
             }
         }
     } catch (error) {
