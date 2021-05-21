@@ -19,6 +19,12 @@ if (cognitoUser == null) {
     $('#bartor-nav-button').attr('hidden', true)
 }
 
+function signOut() {
+    if (cognitoUser != null) {
+        cognitoUser.signOut();
+        window.open("login.html", "_self");
+    }
+}
 
 
 function isAlpha(str) {
