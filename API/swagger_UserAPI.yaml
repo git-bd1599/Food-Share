@@ -1,1 +1,75 @@
+swagger: '2.0'
+info:
+  title: User API
+  description: 'Barter application - User API.'
+  version: v1
+schemes:
+  - https
+basePath: /v1
+produces:
+  - application/json
+  
+##############    PATHS        #######################  
+  
+paths:
+  /username:
+    get:
+      summary: Get recipes of the user
+      operationId: getProfileDetails
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: username
+          type: string 
+          description: userName whose profile to be loaded.
+          required: true
+      responses:
+        '200':
+          description: Information successfully retrieved.
+          schema:
+            $ref: '#/definitions/Response'
+        '403':
+          description: Unauthorized.
+          schema:
+              $ref: '#/definitions/Error'
+        '500':
+          description: Unexpected error.
+          schema:
+            $ref: '#/definitions/Error'
+            
+##############  DEFINITIONS     #######################              
+            
+definitions:
 
+    Response:
+      type: object
+      properties:
+        result:
+          type: array
+          description: grab array Profile Model
+          items: 
+                $ref: '#/definitions/ProfileDetails'
+                
+    ProfileDetails:
+      type: object
+      properties:
+        title:
+            type: string
+        image:
+          type: string
+        recipe_count:
+          type: integer 
+          format: int32
+    
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  

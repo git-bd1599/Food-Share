@@ -1,0 +1,114 @@
+swagger: '2.0'
+info:
+  title: Recipe API
+  description: 'Barter application.'
+  version: v1
+schemes:
+  - https
+basePath: /v1
+produces:
+  - application/json
+  
+##############    PATHS        #######################  
+  
+paths:
+  /recipes/{id}:
+    put:
+      summary: Update a Recipe
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: number 
+          description: The id of the recipe to be updated.
+          required: true
+        - in: body
+          name: title
+          required: false
+          schema:
+            $ref: '#/definitions/Recipe'
+      responses:
+        '200':
+          description: The recipe has been successfully updated.
+          schema:
+            $ref: '#/definitions/Message'
+        '403':
+          description: Unauthorized.
+          schema:
+              $ref: '#/definitions/Error'
+        '500':
+          description: Unexpected error.
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /recipes/:
+    post:
+      summary: Create a new Recipe
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: title
+          required: false
+          schema:
+            $ref: '#/definitions/Recipe'
+      responses:
+        '200':
+          description: The recipe has been successfully updated.
+          schema:
+            $ref: '#/definitions/Message'
+        '403':
+          description: Unauthorized.
+          schema:
+              $ref: '#/definitions/Error'
+        '500':
+          description: Unexpected error.
+          schema:
+            $ref: '#/definitions/Error'
+  
+
+
+##############  DEFINITIONS     #######################              
+            
+definitions:
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Recipe Id
+        title:
+          type: string
+          description: Title of recipe
+        extendedIngredients:
+          type: array
+          items: 
+               type: string
+        instructions:
+          type: string
+          description: Method of creating the recipe
+        image:
+          type: string
+          description: Link to path of image of the recipe
+          
+    Message:
+      type: object
+      properties:
+        msgtext:
+          type: string
+          description: Returns the message on success of operation.
+    
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  
